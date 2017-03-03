@@ -12,15 +12,18 @@ line{
   private:
   //address (without leading 0x)
   //operation (r/w)
+  int lru; 
   line * hist; //history of line
 };
 
 class 
 set{
   public:
+  add(); // add an item
+  evict(); //remove an item 
   private:
   line lines [numlines];//line data structure
-  //lru
+  int lru[lrusize]; //for updating LRU bits one just modified = 0, ++all others
 };
 
 class 
