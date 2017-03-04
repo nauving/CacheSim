@@ -1,4 +1,4 @@
-// File: parser.cpp
+// File: parser.h
 // Parser is a class which handles the opening and parsing of a file containing memory instructions to be used by the
 // Cache Simulator. The Parser object will perform error checking on the instruction before packaging it as a Memory
 // Instruction object and passing it along so that the Simulator is ensured to receive valid data.
