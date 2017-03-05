@@ -21,15 +21,15 @@ MemInstr::MemInstr(string command) {
 }
 
 int MemInstr::SetCmd(string command) {
-	if (command == "-d") {
+	if ((command == "-d") || (command == "-D")) {
 		cmd = d;
 		return 1;
 	}
-	else if (command == "-t") {
+	else if ((command == "-t") || (command == "-T")) {
 		cmd = t;
 		return 1;
 	}
-	else if (command == "-v") {
+	else if ((command == "-v") || (command == "-V")) {
 		cmd = v;
 		return 1;
 	}
@@ -55,6 +55,26 @@ int MemInstr::SetMode(string s) {
 }
 
 int MemInstr::SetAddr(string address) {
+	strAddr = address;
 	addr = stol(address);
 	return 1;
+}
+
+string MemInstr::Dump() {
+	string s = "";
+	if (cmd == d) { s = "Command is '-d'"; }
+	if (cmd == t) { s = "Command is '-t'"; }
+	if (cmd == v) { s = "Command is '-v'"; }
+	if (cmd == n) {
+		s = "Mode is ";
+		if (mode == READ) {
+			s += "READ";
+		} else if (mode == WRITE) {
+			s += "WRITE";
+		} else if (mode == NONE) {
+			s += "NONE";
+		}
+		s += " and address is " + strAddr;
+	}
+	return s;
 }

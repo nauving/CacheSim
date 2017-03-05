@@ -21,7 +21,7 @@ public:
 	MemInstr();                             // Default constructor forward declaration
 	MemInstr(string token1, string token2); // 2 token constructor forward declaration
 	MemInstr(string command);               // 1 token constructor forward declaration
-	string MemInstr::RawData();             // RawData forward declaration
+	string MemInstr::Dump();				// Dump forward declaration
 	bool IsValid() { return valid; }		// TRUE when the data in the MemInstr package is valid
 private:
 	int SetCmd(string command);  // SetCmd forward declaration
@@ -30,6 +30,7 @@ private:
 	CmdType cmd;        // n if not a command, otherwise one of the three types
 	Mode mode;          // NONE if not a RW input, else READ or WRITE
 	long addr;          // NULL if not the address for a RW input, otherwise an int
+	string strAddr;		// Contains the string version of the address
 	bool valid;			// TRUE if the memory instruction has been packaged successfully with valid data,
 						// FALSE if not packaged successfully or packaged without valid data
 };

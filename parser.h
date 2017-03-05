@@ -14,9 +14,9 @@ using namespace std;
 
 class Parser {
 public:
-	Parser();				// Default constructor forward declaration
-	Parser(string fname);	// Custom filename constructor forward declaration
-	MemInstr NxtPkg();		// NxtPkg forward declaration
+	Parser::Parser();				// Default constructor forward declaration
+	Parser::Parser(string fname);	// Custom filename constructor forward declaration
+	MemInstr Parser::NxtPkg();		// NxtPkg forward declaration
 	string Parser::PrintLine();	// PrintLine forward declaration
 	string Parser::PrintToken();	// PrintToken forward declaration
 private:
