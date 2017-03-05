@@ -1,3 +1,5 @@
+// STILL NEED TO IMPLEMENT EOF DETECTION
+
 #include "parser.h"
 
 Parser::Parser() {
