@@ -8,44 +8,20 @@
 #include <iostream>
 #include <fstream>
 #include "MemInstr.h"
+#include "Tokenizer.h"
 
 using namespace std;
 
 class Parser {
-  public:
-    Parser(string fname);       // Default constructor forward declaration
-    string Parser::GetNext();   // GetNext forward declaration
-  private:
-    string fileName;
-    ifstream dataFile;
-    boolean isOpen = FALSE;
-    Parser::open();
+public:
+	Parser();				// Default constructor forward declaration
+	Parser(string fname);	// Custom filename constructor forward declaration
+	MemInstr NxtPkg();		// NxtPkg forward declaration
+private:
+	string Parser::NextToken();	// NextToken forward declaration
+	string Parser::NextLine();	// NextLine forward declaration
+	int Parser::OpenFile();		// OpenFile forward declaration
+	string fileName;			// "input.txt" by default
+	string line;				// current line
+	ifstream dataFile;			// ifstream object to read from file
 };
-
-Parser::Parser(){    // Default constructor
-  fileName = "input.txt";
-  dataFile(fileName);
-}
-
-Parser::Parser(string name){
-  fileName = name;
-  dataFile(fileName);
-}
-
-MemoryCommand Parser::GetNext(){
-  if (!isOpen){
-    openFile();
-  }
-  // start reading in lines from file and tokenize
-    
-}
-
-int Parser::openFile(){
-  if (!dataFile){ // make sure the file is good
-    return 0;
-  } else {
-    dataFile.open(fileName);
-    isOpen = TRUE;
-    return 1;
-  }
-}
