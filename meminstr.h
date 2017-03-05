@@ -9,81 +9,86 @@
 
 using namespace std;
 
-enum CmdType {d, t, v};   // Simulator Commands
-                          // "-d" : Dump
-                          // "-t" : Trace
-                          // "-v" : Version
+enum CmdType { d, t, v, n };	// Simulator Commands
+								// "-d" : Dump
+								// "-t" : Trace
+								// "-v" : Version
 
-enum Mode {READ, WRITE};
+enum Mode { READ, WRITE, NONE };
 
 class MemInstr {
-  public:
-    MemInstr();                             // Default constructor forward declaration
-    MemInstr(string token1, string token2); // 2 token constructor forward declaration
-    MemInstr(string command);               // 1 token constructor forward declaration
-    string MemInstr::RawData();             // RawData forward declaration
-    boolean IsValid() {return invalid};     // IsValid returns TRUE when the data in the MemInstr package is valid
-  private:
-    void SetCmd(string command);  // SetCmd forward declaration
-    void SetMode(string mode);    // SetMode forward declaration
-    void SetAddr(int address);    // SetAddr forward declaration
-    CmdType cmd;        // NULL if not a command, otherwise one of the three types
-    Mode mode;             // NULL if not a RW input, else READ or WRITE
-    long addr;           // NULL if not the address for a RW input, otherwise an int
-    boolean valid;      // TRUE if the memory instruction has been packaged successfully with valid data,
-                        // FALSE if not packaged successfully or packaged without valid data
+public:
+	MemInstr();                             // Default constructor forward declaration
+	MemInstr(string token1, string token2); // 2 token constructor forward declaration
+	MemInstr(string command);               // 1 token constructor forward declaration
+	string MemInstr::RawData();             // RawData forward declaration
+	bool IsValid() { return valid; }		// TRUE when the data in the MemInstr package is valid
+private:
+	int SetCmd(string command);  // SetCmd forward declaration
+	int SetMode(string mode);    // SetMode forward declaration
+	int SetAddr(string address);    // SetAddr forward declaration
+	CmdType cmd;        // n if not a command, otherwise one of the three types
+	Mode mode;          // NONE if not a RW input, else READ or WRITE
+	long addr;          // NULL if not the address for a RW input, otherwise an int
+	bool valid;			// TRUE if the memory instruction has been packaged successfully with valid data,
+						// FALSE if not packaged successfully or packaged without valid data
 };
 
-MemInstr::MemInstr(){
-  cmd = NULL;
-  mode = NULL;
-  addr = NULL;
-  valid = FALSE;
+MemInstr::MemInstr() {
+	cmd = n;
+	mode = NONE;
+	addr = NULL;
+	valid = false;
 }
 
-MemInstr::MemInstr(string token1, string token2){
-  cmd = NULL;
-  if (SetMode(token1) && SetAddr(token2)){
-    valid = TRUE;
-  }
+MemInstr::MemInstr(string token1, string token2) {
+	cmd = n;
+	if (SetMode(token1) && SetAddr(token2)) {
+		valid = true;
+	}
 }
 
-MemInstr::MemInstr(string command){
-  if (SetCmd(command)){
-    valid = TRUE;
-  }
+MemInstr::MemInstr(string command) {
+	if (SetCmd(command)) {
+		valid = true;
+	}
 }
 
-int MemInstr::SetCmd(string command){
-  if (command == "-d"){
-    cmd = d;
-    return 1;
-  }else if (command == "-t"){
-    cmd = t;
-    return 1;
-  }else if (command == "-v"){
-    cmd = v;
-    return 1;
-  }else{
-    cmd = NULL;
-    return 0;
-  }
+int MemInstr::SetCmd(string command) {
+	if (command == "-d") {
+		cmd = d;
+		return 1;
+	}
+	else if (command == "-t") {
+		cmd = t;
+		return 1;
+	}
+	else if (command == "-v") {
+		cmd = v;
+		return 1;
+	}
+	else {
+		cmd = n;
+		return 0;
+	}
 }
 
-int MemInstr::SetMode(string s){
-  if (s == "r" || s == "R"){
-    mode = READ;
-    return 1;
-  }else if (s == "w" || s == "W"){
-    mode = WRITE;
-    return 1;
-  }else{
-    mode = NULL;
-    return 0;
-  }
+int MemInstr::SetMode(string s) {
+	if (s == "r" || s == "R") {
+		mode = READ;
+		return 1;
+	}
+	else if (s == "w" || s == "W") {
+		mode = WRITE;
+		return 1;
+	}
+	else {
+		mode = NONE;
+		return 0;
+	}
 }
 
-int MemInstr::SetAddr(string address){
-  addr = stol(address);
-  return 1;
+int MemInstr::SetAddr(string address) {
+	addr = stol(address);
+	return 1;
 }
