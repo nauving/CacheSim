@@ -145,3 +145,20 @@ cache {
 	else
 		++missees;
  }
+ 
+ cache::print(){ // give info on hits and misses
+	printf("There were %d Cache misses", misses);//print num hits
+	printf("There were %d Cache hits", hits);//print num misses
+	int tmp1;
+	int tmp2;
+	tmp1 = (50 * misses) + hits;
+	printf("Exectution took %d cycles",tmp);//print total cycles w cahce
+	tmp2 = (50 * misses) + (50 * hits);
+	printf("Without the cache execution would have taken %d Cycles", tmp2);//print how many cycles w/o cache
+	tmp2 = tmp2 - tmp1;
+	printf("Having the Cache Saved %d Cycles",tmp2);//print cycles saved by cache
+ }
+ 
+ cache::history(){
+	 
+ }
