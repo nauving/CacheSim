@@ -38,6 +38,6 @@ private:
 };
 
 struct node{
-	class MemInstr data;
+	MemInstr data;
 	node * next;
 }

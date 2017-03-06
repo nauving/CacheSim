@@ -8,7 +8,7 @@
 class 
 set{
 	public:
-		add(struct node * toadd); // add an item
+		add(struct node * toadd, int hit); // add an item
 		updatelru();
 		history(); //show line history
 		init();//initialize the set
@@ -41,12 +41,13 @@ set::updatelru(int val){ //val is the lru of an item in a hit
 	}
 }					//new lines init to lru 0, doesnt matter if unused lines are updated
 
- set::add(stuct node * toadd){
+ set::add(stuct node * toadd, int hit){
 	int tmp;
 	for(int i = 0; i < numlines; ++i){
 		if (valid[i]){ //line has good data
 
 			if(toadd.addr = head[i].addr){ //if there is a cache hit
+				hit = 1; 
 				updatelru(lru[i]);
 				return 0;
 			}
@@ -68,6 +69,7 @@ set::updatelru(int val){ //val is the lru of an item in a hit
 	lru[i] = -1;  //lets updatelru() work right
 	dirty[i] = 1; //write implies data is modified
 	updatelru(-1); //passing -1 implies no hit
+	hit = 0;
 	return 0;
 	
 	
