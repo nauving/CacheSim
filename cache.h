@@ -164,9 +164,9 @@ cache {
 	printf("There were %d Cache write misses", misses[1]);
 	tmp1 = misses[0]+misses[1]; //total misses
 	printf("There were %d total Cache misses", tmp1);
-
-	printf("There were %d stream ins",); //i think that this happens when there is a miss
-	printf("There were %d stream outs",);// happens on eviction
+	tmp1 = misses[0] + misses[1]
+	printf("There were %d stream ins",tmp1); //i think that this happens when there is a miss
+	printf("There were %d stream outs",);// happens on eviction of line w dirty bit set to 1
 
 	tmp1 = (50 * misses) + hits;
 	printf("Exectution took %d cycles",tmp);//print total cycles w cahce
