@@ -86,3 +86,11 @@ long MemInstr::LAddr(){
 string MemInstr::SAddr(){
 	return strAddr;
 }
+
+CmdType MemInstr::GetCmd(){
+	return cmd;
+}
+
+Mode MemInstr::GetMode(){
+	return mode;
+}
