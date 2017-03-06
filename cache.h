@@ -19,7 +19,17 @@ set{
 		bool valid[numlines]; // 1 if data has been written
 		bool dirty[numlines]; // 1 if modified contents not yet written to memory
 };
-
+set::history(){
+		node * tmp;
+		for (int i = 0; i < numlines; ++i){
+			tmp  = head[i]
+			while(tmp){
+				//print stuff in the line
+				tmp->data.print();
+				tmp = tmp -> next; //traverse list
+			}
+		}	
+}
 set::init(){
 	for (int i = 0; i < numlines; ++i){
 		lru[i] = 0;
@@ -186,5 +196,7 @@ cache {
  }
  
  cache::history(){
-	 
+	for (int i = 0; i < numset; ++i){
+			sets[i].history();
+	}	
  }
