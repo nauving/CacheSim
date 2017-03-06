@@ -8,8 +8,8 @@
 class 
 set{
 	public:
-		add(struct node * toadd, int hit); // add an item
-		read(struct node * toread, int hit);
+		add(struct node * toadd, int hit, int d); // add an item
+		read(struct node * toread, int hit, int d);
 		updatelru();
 		history(); //show line history
 		init();//initialize the set
@@ -42,7 +42,7 @@ set::updatelru(int val){ //val is the lru of an item in a hit
 	}
 }					//new lines init to lru 0, doesnt matter if unused lines are updated
 
- set::add(stuct node * toadd, int hit){
+ set::add(stuct node * toadd, int hit, int d){
 	int tmp;
 	for(int i = 0; i < numlines; ++i){
 		if (valid[i]){ //line has good data
@@ -66,7 +66,8 @@ set::updatelru(int val){ //val is the lru of an item in a hit
 		}
 	}
 	//getting here implies that there was no hit 
-	if(dirty[tmp])//track cycles for write to main mem	
+	if(dirty[tmp])//track cycles for write to main mem
+		d = 1;
 	toadd->next = head[tmp]; //add head to list
 	head[tmp] = toadd; //make heat point at new data;
 	lru[tmp] = -1;  //lets updatelru() work right
@@ -76,7 +77,7 @@ set::updatelru(int val){ //val is the lru of an item in a hit
 	return;
  }
  
- set::read(struct node * toread, int hit){
+ set::read(struct node * toread, int hit, int d){
 	int tmp;
 	for(int i = 0; i < numlines; ++i){
 		if (valid[i]){ //line has good data
@@ -100,7 +101,8 @@ set::updatelru(int val){ //val is the lru of an item in a hit
 		}
 	}
 	//getting here implies that there was no hit 
-	if(dirty[tmp])//track cycles for write to main mem	
+	if(dirty[tmp])//track cycles for write to main mem
+		d = 1;
 	toread->next = head[tmp]; //add head to list
 	head[tmp] = toread; //make heat point at new data;
 	lru[tmp] = -1;  //lets updatelru() work right
@@ -122,13 +124,17 @@ cache {
 		set sets[numsets];//set data structure
 		int hits[2];  //hits[0] read hits hits[1] write hits
 		int misses[2];//misses[0] read hits misses[1] write misses
+		int dirty_evicts; //how many times a modified line was written out
  };
  
  cache::read(struct node * addr){
 	int hit = 0;
-	int setnum;
+	int setnum = 0;
+	int dirt = 0;
 	hash(addr, setnum);//figure out what set the data should be sough in
-	sets[setnum].read(addr, hit);
+	sets[setnum].read(addr, hit, dirt);
+	if(dirt)
+		++dirty_evicts
 	if(hit)
 		++hits[0];
 	else
@@ -137,9 +143,12 @@ cache {
  
  cache::write(struct node * addr){
 	int hit = 0;
-	int setnum;
+	int setnum = 0;
+	int dirt = 0;; //used to tell if a modified line was evicted
 	hash(addr, setnum);//figure out which set the data will be added to
-	sets[setnum].add(addr, hit);
+	sets[setnum].add(addr, hit, dirt);
+	if(dirt)
+		++dirty_evicts
 	if(hit)
 		++hits[1];
 	else
@@ -166,7 +175,7 @@ cache {
 	printf("There were %d total Cache misses", tmp1);
 	tmp1 = misses[0] + misses[1]
 	printf("There were %d stream ins",tmp1); //i think that this happens when there is a miss
-	printf("There were %d stream outs",);// happens on eviction of line w dirty bit set to 1
+	printf("There were %d stream outs",dirty_evicts);// happens on eviction of line w dirty bit set to 1
 
 	tmp1 = (50 * misses) + hits;
 	printf("Exectution took %d cycles",tmp);//print total cycles w cahce
