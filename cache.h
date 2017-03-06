@@ -27,20 +27,29 @@ set::init(){
 	}
 }
 
-set::updatelru(){
-	for (int i = 0; i < numlines; ++i){
-		if (lru[i] == 3)
-			continue; //there was a hit somewhere, cant have a value higher than 3.
-		else
-		lru[i]+=1; 	//add one to all other.	
+set::updatelru(int val){ //val is the lru of an item in a hit
+	if (val == -1){
+		for (int i = 0; i < numlines; ++i){
+			lru[i]+=1; 	//add one to all
+		}	
+	}
+	else{ //there was a hit
+		for (int i = 0; i < numlines; ++i){
+			if (lru[i] < val)
+				lru[i]+=1; 	//add one to lrus less than the item that was a hit	
+		}	
+	}
 }					//new lines init to lru 0, doesnt matter if unused lines are updated
 
  set::add(stuct node * toadd){
 	new line = toadd;
-	int leastrecent = -1; //se to negative bc 0 is a used index
-	//check valid
 	for(int i = 0; i < numlines; ++i){
 		if (valid[i]){ //line has good data
+			
+			if(){ //if there is a cache hit
+				
+			}
+			
 			if (lru[i] == 3){
 				//is the item being replace dirty?
 				toadd->next = head[i]; //add head to list
