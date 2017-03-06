@@ -23,6 +23,8 @@ public:
 	MemInstr(string command);               // 1 token constructor forward declaration
 	string MemInstr::Dump();		// Dump forward declaration. This function is only used for debug.
 	bool IsValid() { return valid; }	// TRUE when the data in the MemInstr package is valid
+	CmdType MemInstr::GetCmd();		// GetCmd forward declaration
+	Mode MemInstr::GetMode();		// GetMode forward declaration
 	long MemInstr::LAddr();			// Long int version of getAddress forward declaration
 	string MemInstr::SAddr();		// String version of getAddress forward declaration
 private:
