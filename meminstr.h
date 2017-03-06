@@ -34,3 +34,8 @@ private:
 	bool valid;			// TRUE if the memory instruction has been packaged successfully with valid data,
 						// FALSE if not packaged successfully or packaged without valid data
 };
+
+struct node{
+	class MemInstr data;
+	node * next;
+}

@@ -1,36 +1,27 @@
 #pragma once
+#include "meminstr.h"
 
 #define numsets = 1024;
 #define numlines = 4;
 
 
-struct
-line{
-  bool op; // 1 if read 0 if write;
-  line * next;	//history of line, 0 if no history
-};
-
 class 
 set{
-  public:
-  add(char * toadd); // add an item
-  updatelru();
-  history(); //shpw t
-  evict(); //remove an item 
-  private:
-  struct line head [numlines];//linked list of lines, being head implies that that item is currently in the cache the rest are line history
-  int lru[numlines]; 	//// 0-3, 3 gets evicted on write
-  bool valid[numlines]; // 1 if data has been written
-  bool dirty[numlines]; // 1 if modified contents not yet written to memory
-  int hits;
-  int misses;
+	public:
+		add(char * toadd); // add an item
+		updatelru();
+		history(); //show line history
+	private:
+		struct node head [numlines];//linked list of lines, being head implies that that item is currently in the cache the rest are line history
+		int lru[numlines]; 	//// 0-3, 3 gets evicted on write
+		bool valid[numlines]; // 1 if data has been written
+		bool dirty[numlines]; // 1 if modified contents not yet written to memory
 };
 
 set::updatelru(){
 	for (int i = 0; i < numlines; ++i){
-		lru[i]+=1; //add one to all LRU bits
-	}
-}
+		lru[i]+=1; 	//add one to all LRU bits.	
+}					//new lines init to lru 0, doesnt matter if unused lines are updated
 
  set::add(void * toadd){
 	new line = toadd;
@@ -48,10 +39,12 @@ set::updatelru(){
 				updatelru();
 				return 0;
 			}	
+		}	
+		else{
+			valid[i] = 1; //now has valid data
+			head[i] = toadd; //head is current item in cache
+			head->next = 0;//linked list fun
 		}
-		
-		else
-				//put in first invalid line
 	}
 	
  }
@@ -59,9 +52,20 @@ set::updatelru(){
 class 
 cache {
   public:
-    read (addr); //read an item from the cache
-    write(addr); //write an item to the cache
-    check(addr); // see if an item is in the cache
-   private:
-   set sets[numsets];//set data structure
+		read (addr); //read an item from the cache
+		write(addr); //write an item to the cache
+	private:
+		set sets[numsets];//set data structure
+		int hits;
+		int misses;
  };
+ 
+ cache::read(addr){
+	//need to move data being passed in to a line
+	 
+ }
+ 
+ cache::write(addr){
+	//need to move data being passed in to a line
+	 
+ }
