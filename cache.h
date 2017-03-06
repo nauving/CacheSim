@@ -120,8 +120,8 @@ cache {
 	private:
 		hash(struct node * addr, int set); //
 		set sets[numsets];//set data structure
-		int hits;  //counts cache hits
-		int misses;//counts cache misses
+		int hits[2];  //hits[0] read hits hits[1] write hits
+		int misses[2];//misses[0] read hits misses[1] write misses
  };
  
  cache::read(struct node * addr){
@@ -130,9 +130,9 @@ cache {
 	hash(addr, setnum);//figure out what set the data should be sough in
 	sets[setnum].read(addr, hit);
 	if(hit)
-		++hits;
+		++hits[0];
 	else
-		++missees;
+		++missees[0];
  }
  
  cache::write(struct node * addr){
@@ -141,16 +141,33 @@ cache {
 	hash(addr, setnum);//figure out which set the data will be added to
 	sets[setnum].add(addr, hit);
 	if(hit)
-		++hits;
+		++hits[1];
 	else
-		++missees;
+		++missees[1];
  }
  
  cache::print(){ // give info on hits and misses
-	printf("There were %d Cache misses", misses);//print num hits
-	printf("There were %d Cache hits", hits);//print num misses
-	int tmp1;
-	int tmp2;
+	int tmp1 hits[0] + misses[0]; //total reads
+	int tmp2 hits[1] + misses[1]; //total writes
+	
+	printf("There were %d Cache stores", tmp2);
+	printf("There were %d Cache loads", tmp1);
+	tmp2 = tmp2 + tmp1; //total mem accesses
+	printf("There were %d total memory refrences",tmp2);
+	
+	printf("There were %d Cache read hits", hits[0]);
+	printf("There were %d Cache write hits", hits[1]);
+	tmp1=hits[0]+hits[1]; //total hits
+	printf("There were %d total Cache hits", tmp1);
+	
+	printf("There were %d Cache read misses", misses[0]);
+	printf("There were %d Cache write misses", misses[1]);
+	tmp1 = misses[0]+misses[1]; //total misses
+	printf("There were %d total Cache misses", tmp1);
+
+	printf("There were %d stream ins",); //i think that this happens when there is a miss
+	printf("There were %d stream outs",);// happens on eviction
+
 	tmp1 = (50 * misses) + hits;
 	printf("Exectution took %d cycles",tmp);//print total cycles w cahce
 	tmp2 = (50 * misses) + (50 * hits);
