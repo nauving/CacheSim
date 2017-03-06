@@ -8,7 +8,7 @@
 class 
 set{
 	public:
-		add(char * toadd); // add an item
+		add(struct node * toadd); // add an item
 		updatelru();
 		history(); //show line history
 	private:
@@ -23,7 +23,7 @@ set::updatelru(){
 		lru[i]+=1; 	//add one to all LRU bits.	
 }					//new lines init to lru 0, doesnt matter if unused lines are updated
 
- set::add(void * toadd){
+ set::add(stuct node * toadd){
 	new line = toadd;
 	int leastrecent = -1; //se to negative bc 0 is a used index
 	//check valid
@@ -36,6 +36,7 @@ set::updatelru(){
 				toadd->next = head[i]; //add head to list
 				head[i] = toadd; //make heat point at new data;
 				lru[i] = -1; //lets updatelru() work right
+				dirty[i] = 1; //write implies data is modified
 				updatelru();
 				return 0;
 			}	
@@ -52,20 +53,27 @@ set::updatelru(){
 class 
 cache {
   public:
-		read (addr); //read an item from the cache
-		write(addr); //write an item to the cache
+		read (struct node * addr); //read an item from the cache
+		write(struct node * addr); //write an item to the cache
 	private:
+		hash(struct node * addr, int set); //
 		set sets[numsets];//set data structure
 		int hits;
 		int misses;
  };
  
- cache::read(addr){
-	//need to move data being passed in to a line
+ cache::read(struct node * addr){
+	int setnum;
+	hash(addr, setnum);//figure out what set the data should be sough in
+	sets[setnum].add(addr)
+	//if hits
+	//if miss
 	 
  }
  
- cache::write(addr){
-	//need to move data being passed in to a line
-	 
+ cache::write(struct node * addr){
+	int setnum;
+	hash(addr, setnum);//figure out which set the data will be added to
+	//if hit
+	//if miss
  }
