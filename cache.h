@@ -90,17 +90,24 @@ cache {
  };
  
  cache::read(struct node * addr){
+	int hit = 0;
 	int setnum;
 	hash(addr, setnum);//figure out what set the data should be sough in
-	sets[setnum].add(addr)
-	//if hits
-	//if miss
+	sets[setnum].add(addr, hit);
+	if(hit)
+		++hits;
+	else
+		++missees;
 	 
  }
  
  cache::write(struct node * addr){
+	int hit = 0;
 	int setnum;
 	hash(addr, setnum);//figure out which set the data will be added to
-	//if hit
-	//if miss
+	sets[setnum].add(addr, hit);
+	if(hit)
+		++hits;
+	else
+		++missees;
  }
