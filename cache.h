@@ -46,20 +46,22 @@ set::updatelru(int val){ //val is the lru of an item in a hit
 	for(int i = 0; i < numlines; ++i){
 		if (valid[i]){ //line has good data
 
-			if(toadd.addr = head[i].addr){ //if there is a cache hit
+			if(toadd->data.Laddr() = head[i]->data.Laddr()){ //if there is a cache hit
 				hit = 1; 
 				updatelru(lru[i]);
-				return 0;
+				lru[i] = 0;
+				toadd->next =head[i]; //make head next item in list
+				head[i] = toadd;
+				return;
 			}
-			
-			if (lru[i] == 3)			
+			if (lru[i] == 3) //item has LRU of 3 and is valid			
 				tmp = i; //is the item being replace dirty?
 		}	
 		else{
 			valid[i] = 1; //now has valid data
 			head[i] = toadd; //head is current item in cache
 			head->next = 0;//linked list fun
-			return 0;
+			return;
 		}
 	}
 	//getting here implies that there was no hit 
@@ -70,9 +72,7 @@ set::updatelru(int val){ //val is the lru of an item in a hit
 	dirty[i] = 1; //write implies data is modified
 	updatelru(-1); //passing -1 implies no hit
 	hit = 0;
-	return 0;
-	
-	
+	return;
  }
 
 class 
