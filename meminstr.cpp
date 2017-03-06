@@ -78,3 +78,11 @@ string MemInstr::Dump() {
 	}
 	return s;
 }
+
+long MemInstr::LAddr(){
+	return addr;
+}
+
+string MemInstr::SAddr(){
+	return strAddr;
+}
