@@ -46,12 +46,13 @@ set::updatelru(int val){ //val is the lru of an item in a hit
 	for(int i = 0; i < numlines; ++i){
 		if (valid[i]){ //line has good data
 			
-			if(){ //if there is a cache hit
-				updatelru();
+			if(toadd.addr = head[i].addr){ //if there is a cache hit
+				updatelru(lru[i]);
 			}
 			
 			if (lru[i] == 3){
 				//is the item being replace dirty?
+				if(dirty[i])//track cycles for write to main mem
 				toadd->next = head[i]; //add head to list
 				head[i] = toadd; //make heat point at new data;
 				lru[i] = -1;  //lets updatelru() work right
