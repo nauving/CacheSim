@@ -47,7 +47,7 @@ set::updatelru(int val){ //val is the lru of an item in a hit
 		if (valid[i]){ //line has good data
 			
 			if(){ //if there is a cache hit
-				
+				updatelru();
 			}
 			
 			if (lru[i] == 3){
@@ -56,7 +56,7 @@ set::updatelru(int val){ //val is the lru of an item in a hit
 				head[i] = toadd; //make heat point at new data;
 				lru[i] = -1;  //lets updatelru() work right
 				dirty[i] = 1; //write implies data is modified
-				updatelru();
+				updatelru(-1);
 				return 0;
 			}	
 		}	
