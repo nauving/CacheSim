@@ -1,0 +1,28 @@
+// to be implemented by cache.cpp
+
+// cache needs to have tFlag, dFlag booleans.
+cache::Unpack(Parser p){
+	MemInstr temp = p.NxtPkg();
+	if (temp.IsValid()){
+		CmdType c = temp.GetCmd();
+		if (c != n){
+			if (c == t) {
+				tFlag = true;
+			} else if (c == v) {
+				// immediately print version info and quit simulation
+			} else if (c == d) {
+				dFlag = true;
+			} //end if
+		} else {
+			long l;
+			Mode m = temp.GetMode();
+			if (m == READ) {
+				 l = temp.LAddr();
+				//DO READ(l)
+			} else if (m == WRITE) {
+				l = temp.LAddr();
+				//DO WRITE(l)
+			}
+		}
+	}
+}
