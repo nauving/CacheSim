@@ -42,31 +42,34 @@ set::updatelru(int val){ //val is the lru of an item in a hit
 }					//new lines init to lru 0, doesnt matter if unused lines are updated
 
  set::add(stuct node * toadd){
-	new line = toadd;
+	int tmp;
 	for(int i = 0; i < numlines; ++i){
 		if (valid[i]){ //line has good data
-			
+
 			if(toadd.addr = head[i].addr){ //if there is a cache hit
 				updatelru(lru[i]);
+				return 0;
 			}
 			
-			if (lru[i] == 3){
-				//is the item being replace dirty?
-				if(dirty[i])//track cycles for write to main mem
-				toadd->next = head[i]; //add head to list
-				head[i] = toadd; //make heat point at new data;
-				lru[i] = -1;  //lets updatelru() work right
-				dirty[i] = 1; //write implies data is modified
-				updatelru(-1);
-				return 0;
-			}	
+			if (lru[i] == 3)			
+				tmp = i; //is the item being replace dirty?
 		}	
 		else{
 			valid[i] = 1; //now has valid data
 			head[i] = toadd; //head is current item in cache
 			head->next = 0;//linked list fun
+			return 0;
 		}
 	}
+	//getting here implies that there was no hit 
+	if(dirty[tmp])//track cycles for write to main mem	
+	toadd->next = head[i]; //add head to list
+	head[i] = toadd; //make heat point at new data;
+	lru[i] = -1;  //lets updatelru() work right
+	dirty[i] = 1; //write implies data is modified
+	updatelru(-1); //passing -1 implies no hit
+	return 0;
+	
 	
  }
 
