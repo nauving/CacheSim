@@ -11,6 +11,7 @@ set{
 		add(struct node * toadd); // add an item
 		updatelru();
 		history(); //show line history
+		init();//initialize the set
 	private:
 		struct node head [numlines];//linked list of lines, being head implies that that item is currently in the cache the rest are line history
 		int lru[numlines]; 	//// 0-3, 3 gets evicted on write
@@ -18,9 +19,20 @@ set{
 		bool dirty[numlines]; // 1 if modified contents not yet written to memory
 };
 
+set::init(){
+	for (int i = 0; i < numlines; ++i){
+		lru[i] = 0;
+		valid[i] = 0;
+		dirty[i] = 0;
+	}
+}
+
 set::updatelru(){
 	for (int i = 0; i < numlines; ++i){
-		lru[i]+=1; 	//add one to all LRU bits.	
+		if (lru[i] == 3)
+			continue; //there was a hit somewhere, cant have a value higher than 3.
+		else
+		lru[i]+=1; 	//add one to all other.	
 }					//new lines init to lru 0, doesnt matter if unused lines are updated
 
  set::add(stuct node * toadd){
@@ -31,11 +43,9 @@ set::updatelru(){
 		if (valid[i]){ //line has good data
 			if (lru[i] == 3){
 				//is the item being replace dirty?
-				// if line op = read no need to update dirty
-				//if write need to update 
 				toadd->next = head[i]; //add head to list
 				head[i] = toadd; //make heat point at new data;
-				lru[i] = -1; //lets updatelru() work right
+				lru[i] = -1;  //lets updatelru() work right
 				dirty[i] = 1; //write implies data is modified
 				updatelru();
 				return 0;
@@ -55,11 +65,13 @@ cache {
   public:
 		read (struct node * addr); //read an item from the cache
 		write(struct node * addr); //write an item to the cache
+		print();
+		history();
 	private:
 		hash(struct node * addr, int set); //
 		set sets[numsets];//set data structure
-		int hits;
-		int misses;
+		int hits;  //counts cache hits
+		int misses;//counts cache misses
  };
  
  cache::read(struct node * addr){
