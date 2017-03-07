@@ -5,11 +5,13 @@
 Parser::Parser() {
 	fileName = "input.txt";
 	OpenFile();
+	eof = false;
 }
 
 Parser::Parser(string name) {
 	fileName = name;
 	OpenFile();
+	eof = false;
 }
 
 MemInstr Parser::NxtPkg()
@@ -67,8 +69,12 @@ string Parser::NextToken() {
 
 void Parser::NextLine() {
 	// this function reads the next line from the file into the line variable
-	getline(dataFile, line);
-	tok.set(line);
+	if (!dataFile.eof()){
+		getline(dataFile, line);
+		tok.set(line);
+	} else {
+		eof = true;
+	}
 }
 
 int Parser::OpenFile() {
@@ -87,4 +93,8 @@ string Parser::PrintLine() {
 
 string Parser::PrintToken() {
 	return token;
+}
+
+boolean Parser::IsEof(){
+	return eof;
 }
