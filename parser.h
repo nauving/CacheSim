@@ -14,9 +14,9 @@ using namespace std;
 
 class Parser {
 public:
-	Parser::Parser();				// Default constructor forward declaration
+	Parser::Parser();		// Default constructor forward declaration
 	Parser::Parser(string fname);	// Custom filename constructor forward declaration
-	MemInstr Parser::NxtPkg();		// NxtPkg forward declaration
+	MemInstr Parser::NxtPkg();	// NxtPkg forward declaration
 	string Parser::PrintLine();	// PrintLine forward declaration
 	string Parser::PrintToken();	// PrintToken forward declaration
 	boolean Parser::IsEof();
@@ -24,11 +24,10 @@ private:
 	string Parser::NextToken();	// NextToken forward declaration
 	void Parser::NextLine();	// NextLine forward declaration
 	int Parser::OpenFile();		// OpenFile forward declaration
-	void Parser::EofDetect();
-	Tokenizer tok;				// Tokenizer used to process lines
-	string fileName;			// "input.txt" by default
-	string line;				// stores the current line from the file
-	string token;				// stores the current token from the line
-	ifstream dataFile;			// ifstream object to read from file
+	Tokenizer tok;			// Tokenizer used to process lines
+	string fileName;		// "input.txt" by default
+	string line;			// stores the current line from the file
+	string token;			// stores the current token from the line
+	ifstream dataFile;		// ifstream object to read from file
 	boolean eof;
 };
