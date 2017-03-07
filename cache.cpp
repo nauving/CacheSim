@@ -3,6 +3,39 @@
 
 using namespace std;
 
+int cache::unpack(Parser p) {
+	//if EOF return 0;
+	MemInstr temp = p.NxtPkg();
+	if (temp.IsValid()) {
+		CmdType c = temp.GetCmd();
+		if (c != n) {
+			if (c == t) {
+				flags[0] = true;
+				return 1;
+			} else if (c == v) {
+				//DO PRINTVERSION()
+				return 0;
+			} else if (c == d) {
+				flags[1] = true;
+				return 0;
+			} //end if
+		} else {
+			long l;
+			Mode m = temp.GetMode();
+			if (m == READ) {
+				 l = temp.LAddr();
+				//DO READ(l)
+				return 1;
+			} else if (m == WRITE) {
+				l = temp.LAddr();
+				//DO WRITE(l)
+				return 1;
+			}
+		}
+	}
+	return 0;
+}
+
 cache::read(Meminstr * addr){
 	int hit = 0;
 	int setnum = 0;
