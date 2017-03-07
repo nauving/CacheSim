@@ -11,7 +11,7 @@ set{
 		add(struct node * toadd, int hit, int d); // add an item
 		read(struct node * toread, int hit, int d);
 		updatelru();
-		history(); //show line history
+		history(int f); //show line history
 		init();//initialize the set
 	private:
 		struct node head [numlines];//linked list of lines, being head implies that that item is currently in the cache the rest are line history
@@ -20,11 +20,18 @@ set{
 		bool dirty[numlines]; // 1 if modified contents not yet written to memory
 };
 
-set::history(){
+set::history(int f){
 		node * tmp;
 		for (int i = 0; i < numlines; ++i){
 			tmp  = head[i]
 			while(tmp){
+				if(f){ //-d debug command
+					//show if r/w
+					//hit or miss
+					//tag
+					//dirty
+					//valid
+				}
 				//print stuff in the line
 				tmp->data.print();
 				tmp = tmp -> next; //traverse list
@@ -136,8 +143,7 @@ cache {
 		read (Meminstr * addr); //read an item from the cache
 		write(MemInstr * addr); //write an item to the cache
 		print();
-		history();
-		dump(); //called if -d command is 
+		history(int f); //if f = 1 the hist op is a dump debug command
 	private:
 		hash(struct node * addr, int set); //
 		set sets[numsets];//set data structure
@@ -146,14 +152,6 @@ cache {
 		int dirty_evicts; //how many times a modified line was written out
 		bool flags[2]; //flags[0] = 1 means trace is flags[1] means dump
  };
- 
- cache::dump(){
-	//For each line and for each of its accesses
-	//dump whether it was a read or write, hit or miss
-	//dump the tag, the state of the dirty and valid bits
-	//and whether stream-out was necessary.
-	 
- }
  
  cache::read(Meminstr * addr){
 	int hit = 0;
@@ -225,8 +223,8 @@ cache {
 	printf("Having the Cache Saved %d Cycles",tmp2);//print cycles saved by cache
  }
  
- cache::history(){
+ cache::history(inf f){
 	for (int i = 0; i < numset; ++i){
-			sets[i].history();
+			sets[i].history(f);
 	}	
  }
