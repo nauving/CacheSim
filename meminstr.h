@@ -42,4 +42,5 @@ private:
 struct node{
 	MemInstr * data;
 	node * next;
+	int flag;
 }

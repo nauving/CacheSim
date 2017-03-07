@@ -131,12 +131,14 @@ cache {
 		write(MemInstr * addr); //write an item to the cache
 		print();
 		history();
+		dump(); //called if -d command is 
 	private:
 		hash(struct node * addr, int set); //
 		set sets[numsets];//set data structure
 		int hits[2];  //hits[0] read hits hits[1] write hits
 		int misses[2];//misses[0] read hits misses[1] write misses
 		int dirty_evicts; //how many times a modified line was written out
+		bool flags[2]; //flags[0] = 1 means trace is flags[1] means dump
  };
  
  cache::read(Meminstr * addr){
@@ -145,8 +147,10 @@ cache {
 	int dirt = 0;
 	
 	node * tmp = new node;
-	tmp->ddata = addr;
+	tmp->data = addr;
 	tmp->next = 0;
+	tmp->flag = flags[1];
+	
 	hash(addr, setnum);//figure out what set the data should be sough in
 	sets[setnum].read(tmp, hit, dirt);
 	if(dirt)
@@ -161,6 +165,12 @@ cache {
 	int hit = 0;
 	int setnum = 0;
 	int dirt = 0;; //used to tell if a modified line was evicted
+	
+	node * tmp = new node;
+	tmp->data = addr;
+	tmp->next = 0;
+	tmp->flag = flags[1];
+	
 	hash(addr, setnum);//figure out which set the data will be added to
 	sets[setnum].add(tmp, hit, dirt);
 	if(dirt)
