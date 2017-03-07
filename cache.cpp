@@ -1,4 +1,7 @@
+#include <stdio.h>
 #include "cache.h"
+
+using namespace std;
 
 cache::read(Meminstr * addr){
 	int hit = 0;
