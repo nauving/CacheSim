@@ -4,6 +4,19 @@
 #include "parser.h"
 using namespace std;
 
+int main(argc, argv[]){
+	string str;
+	cout << "Please enter the name of the file that contains the inputs: ";
+	cin >> str;
+	Parser parse(str);
+	cache c();
+	int on = 1;
+	while(on){
+		on = c.unpack(parse);
+	}
+}
+
+/*
 int main(int argc, char* argv[]) {
 	Parser ptest("file.txt");
 	MemInstr m;
@@ -19,3 +32,4 @@ int main(int argc, char* argv[]) {
 	cin >> x;
 	return 0;
 }
+*/
