@@ -6,7 +6,10 @@ using namespace std;
 int cache::unpack(Parser p) {
 	//if EOF return 0;
 	MemInstr temp = p.NxtPkg();
-	if (temp.IsValid()) {
+	if (p.IsEof()){
+		return 0;
+	}
+	else if (temp.IsValid()) {
 		CmdType c = temp.GetCmd();
 		if (c != n) {
 			if (c == t) {
