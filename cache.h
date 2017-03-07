@@ -3,17 +3,17 @@
 #include "set.h"
 #include "parser.h"
 
-#define numsets = 1024;
+#define numsets 1024
 
 class cache {
   public:
-		read (Meminstr * addr); //read an item from the cache
-		write(MemInstr * addr); //write an item to the cache
-		print();
-		history(int f); //if f = 1 the hist op is a dump debug command
-		unpack(Parser p);
+		void read(MemInstr * addr); //read an item from the cache
+		void write(MemInstr * addr); //write an item to the cache
+		void print();
+		void history(); //if f = 1 the hist op is a dump debug command
+		int unpack(Parser p);
 	private:
-		hash(struct node * addr, int set); //
+		void hash(struct node * addr, int set); //
 		set sets[numsets];//set data structure
 		int hits[2];  //hits[0] read hits hits[1] write hits
 		int misses[2];//misses[0] read hits misses[1] write misses

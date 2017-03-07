@@ -19,7 +19,7 @@ public:
 	MemInstr Parser::NxtPkg();	// NxtPkg forward declaration
 	string Parser::PrintLine();	// PrintLine forward declaration
 	string Parser::PrintToken();	// PrintToken forward declaration
-	boolean Parser::IsEof();
+	bool Parser::IsEof();
 private:
 	string Parser::NextToken();	// NextToken forward declaration
 	void Parser::NextLine();	// NextLine forward declaration
@@ -29,5 +29,5 @@ private:
 	string line;			// stores the current line from the file
 	string token;			// stores the current token from the line
 	ifstream dataFile;		// ifstream object to read from file
-	boolean eof;
+	bool eofd;
 };

@@ -1,7 +1,7 @@
 #include "set.h"
 
-set::history(int f){
-		node * tmp;
+void set::history(int f){
+		struct node * tmp;
 		for (int i = 0; i < numlines; ++i){
 			tmp = head[i];
 			while(tmp){
@@ -13,8 +13,8 @@ set::history(int f){
 					//valid
 				}
 				//print stuff in the line
-				tmp->data.print();
-				tmp = tmp -> next; //traverse list
+				tmp->data->Dump();
+				tmp = tmp->next; //traverse list
 			}
 		}	
 }
@@ -27,7 +27,7 @@ set::set(){
 	}
 }
 
-set::updatelru(int val){ //val is the lru of an item in a hit
+void set::updatelru(int val){ //val is the lru of an item in a hit
 	if (val == -1){
 		for (int i = 0; i < numlines; ++i){
 			lru[i]+=1; 	//add one to all
@@ -41,18 +41,18 @@ set::updatelru(int val){ //val is the lru of an item in a hit
 	}
 }					//new lines init to lru 0, doesnt matter if unused lines are updated
 
- set::add(stuct node * toadd, int hit, int d){
+ void set::add(struct node * toadd, int hit, int d){
 	int tmp;
 	for(int i = 0; i < numlines; ++i){
 		if (valid[i]){ //line has good data
 
-			if(toadd->data.Laddr() = head[i]->data.Laddr()){ //if there is a cache hit
-				hit = 1; 
+			if(toadd->data->LAddr() == head[i]->data->LAddr()){ //if there is a cache hit
+				hit = 1;
 				updatelru(lru[i]);
 				lru[i] = 0;
 				toadd->next =head[i]; //make head next item in list
 				head[i] = toadd;
-				head -> hit = 1;
+				head[i]->hit = 1;
 				return;
 			}
 			if (lru[i] == 3) //item has LRU of 3 and is valid			
@@ -61,37 +61,36 @@ set::updatelru(int val){ //val is the lru of an item in a hit
 		else{
 			valid[i] = 1; //now has valid data
 			head[i] = toadd; //head is current item in cache
-			head->next = 0;//linked list fun
+			head[i]->next = 0;//linked list fun
 			return;
 		}
 	}
 	//getting here implies that there was no hit 
 	if(dirty[tmp])//track cycles for write to main mem
 		d = 1;
-	head->lru = lru[tmp];
-	head->dirty = dirty[tmp];
+	(*head)->lru = lru[tmp];
+	(*head)->dirty = dirty[tmp];
 	toadd->next = head[tmp]; //add head to list
 	head[tmp] = toadd; //make heat point at new data;
 	lru[tmp] = -1;  //lets updatelru() work right
 	dirty[tmp] = 1; //write implies data is modified
 	updatelru(-1); //passing -1 implies no hit
 	hit = 0;
-	head -> hit = 0;
+	head[tmp]->hit = 0;
 	return;
  }
  
- set::read(struct node * toread, int hit, int d){
+ void set::read(struct node * toread, int hit, int d){
 	int tmp;
 	for(int i = 0; i < numlines; ++i){
 		if (valid[i]){ //line has good data
-
-			if(toread->data.Laddr() = head[i]->data.Laddr()){ //if there is a cache hit
+			if(toread->data->LAddr() == head[i]->data->LAddr()){ //if there is a cache hit
 				hit = 1; 
 				updatelru(lru[i]);
 				lru[i] = 0;
-				toread->next =head[i]; //make head next item in list
+				toread->next = head[i]; //make head next item in list
 				head[i] = toread;
-				head->hit = hit;
+				head[i]->hit = hit;
 				return;
 			}
 			if (lru[i] == 3) //item has LRU of 3 and is valid			
@@ -99,8 +98,8 @@ set::updatelru(int val){ //val is the lru of an item in a hit
 		}	
 		else{
 			valid[i] = 1; //now has valid data
-			head[i] = toadd; //head is current item in cache
-			head->next = 0;//linked list fun
+			head[i] = toread; //head is current item in cache
+			head[i]->next = 0;//linked list fun
 			return;
 		}
 	}
@@ -113,6 +112,6 @@ set::updatelru(int val){ //val is the lru of an item in a hit
 	dirty[tmp] = 0; //write implies data is modified
 	updatelru(-1); //passing -1 implies no hit
 	hit = 0;
-	head -> hit = 0;
+	head[tmp]->hit = 0;
 	return;
  }

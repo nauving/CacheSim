@@ -25,12 +25,11 @@ int main(int argc, char* argv[]) {
 	do {
 		x++;
 		m = ptest.NxtPkg();
-		if (m.IsValid() && !p.IsEof()) {
+		if (m.IsValid() && !ptest.IsEof()) {
 			cout << "*****************************\nAt dump " << x << ": " << m.Dump() << '\n';
 		}
 		cout << "\nLine is: " << ptest.PrintLine() << '\n' << "Token is: " << ptest.PrintToken() << "\n\n";
-	} while ((m.IsValid()) && (!p.IsEof());
-	cin >> x;
+	} while ((m.IsValid()) && (!ptest.IsEof()));
 	return 0;
 }
 
