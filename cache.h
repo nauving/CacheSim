@@ -19,6 +19,7 @@ set{
 		bool valid[numlines]; // 1 if data has been written
 		bool dirty[numlines]; // 1 if modified contents not yet written to memory
 };
+
 set::history(){
 		node * tmp;
 		for (int i = 0; i < numlines; ++i){
@@ -30,6 +31,7 @@ set::history(){
 			}
 		}	
 }
+
 set::init(){
 	for (int i = 0; i < numlines; ++i){
 		lru[i] = 0;
@@ -125,8 +127,8 @@ set::updatelru(int val){ //val is the lru of an item in a hit
 class 
 cache {
   public:
-		read (struct node * addr); //read an item from the cache
-		write(struct node * addr); //write an item to the cache
+		read (Meminstr * addr); //read an item from the cache
+		write(MemInstr * addr); //write an item to the cache
 		print();
 		history();
 	private:
@@ -137,12 +139,16 @@ cache {
 		int dirty_evicts; //how many times a modified line was written out
  };
  
- cache::read(struct node * addr){
+ cache::read(Meminstr * addr){
 	int hit = 0;
 	int setnum = 0;
 	int dirt = 0;
+	
+	node * tmp = new node;
+	tmp->ddata = addr;
+	tmp->next = 0;
 	hash(addr, setnum);//figure out what set the data should be sough in
-	sets[setnum].read(addr, hit, dirt);
+	sets[setnum].read(tmp, hit, dirt);
 	if(dirt)
 		++dirty_evicts
 	if(hit)
@@ -151,12 +157,12 @@ cache {
 		++missees[0];
  }
  
- cache::write(struct node * addr){
+ cache::write(MemInstr* addr){
 	int hit = 0;
 	int setnum = 0;
 	int dirt = 0;; //used to tell if a modified line was evicted
 	hash(addr, setnum);//figure out which set the data will be added to
-	sets[setnum].add(addr, hit, dirt);
+	sets[setnum].add(tmp, hit, dirt);
 	if(dirt)
 		++dirty_evicts
 	if(hit)
