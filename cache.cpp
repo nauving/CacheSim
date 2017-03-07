@@ -1,3 +1,5 @@
+#include "cache.h"
+
 cache::read(Meminstr * addr){
 	int hit = 0;
 	int setnum = 0;
