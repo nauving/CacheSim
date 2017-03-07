@@ -1,6 +1,7 @@
 #pragma once
 #include "meminstr.h"
 #include "set.h"
+#include "parser.h"
 
 #define numsets = 1024;
 
@@ -10,6 +11,7 @@ class cache {
 		write(MemInstr * addr); //write an item to the cache
 		print();
 		history(int f); //if f = 1 the hist op is a dump debug command
+		unpack(Parser p);
 	private:
 		hash(struct node * addr, int set); //
 		set sets[numsets];//set data structure
