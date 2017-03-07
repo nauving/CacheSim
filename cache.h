@@ -65,6 +65,7 @@ set::updatelru(int val){ //val is the lru of an item in a hit
 				lru[i] = 0;
 				toadd->next =head[i]; //make head next item in list
 				head[i] = toadd;
+				head -> hit = 1;
 				return;
 			}
 			if (lru[i] == 3) //item has LRU of 3 and is valid			
@@ -80,12 +81,15 @@ set::updatelru(int val){ //val is the lru of an item in a hit
 	//getting here implies that there was no hit 
 	if(dirty[tmp])//track cycles for write to main mem
 		d = 1;
+	head->lru = lru[tmp];
+	head->dirty = dirty[tmp];
 	toadd->next = head[tmp]; //add head to list
 	head[tmp] = toadd; //make heat point at new data;
 	lru[tmp] = -1;  //lets updatelru() work right
 	dirty[tmp] = 1; //write implies data is modified
 	updatelru(-1); //passing -1 implies no hit
 	hit = 0;
+	head -> hit = 0;
 	return;
  }
  
@@ -100,6 +104,7 @@ set::updatelru(int val){ //val is the lru of an item in a hit
 				lru[i] = 0;
 				toread->next =head[i]; //make head next item in list
 				head[i] = toread;
+				head->hit = hit;
 				return;
 			}
 			if (lru[i] == 3) //item has LRU of 3 and is valid			
@@ -121,6 +126,7 @@ set::updatelru(int val){ //val is the lru of an item in a hit
 	dirty[tmp] = 0; //write implies data is modified
 	updatelru(-1); //passing -1 implies no hit
 	hit = 0;
+	head -> hit = 0;
 	return;
  }
 
@@ -140,6 +146,14 @@ cache {
 		int dirty_evicts; //how many times a modified line was written out
 		bool flags[2]; //flags[0] = 1 means trace is flags[1] means dump
  };
+ 
+ cache::dump(){
+	//For each line and for each of its accesses
+	//dump whether it was a read or write, hit or miss
+	//dump the tag, the state of the dirty and valid bits
+	//and whether stream-out was necessary.
+	 
+ }
  
  cache::read(Meminstr * addr){
 	int hit = 0;
