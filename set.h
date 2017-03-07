@@ -3,6 +3,16 @@
 
 #define numlines = 4;
 
+struct node{
+	MemInstr * data;
+	int lru; //for dump command
+	int tag; //for dump command
+	int dirty; //valid left out because its only valid if there is data to print
+	int hit;
+	node * next; //dirty replaced by somthing implies a stream out.
+	int flag;   //first operation implies a stream in
+}
+
 class 
 Set{
 	public:
