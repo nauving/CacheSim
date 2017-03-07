@@ -13,14 +13,13 @@ struct node{
 	int flag;   //first operation implies a stream in
 }
 
-class 
-Set{
+class set{
 	public:
-		Set::add(struct node * toadd, int hit, int d);    // add an item
-		Set::read(struct node * toread, int hit, int d);
-		Set::updatelru();
-		Set::history(int f);    //show line history
-		Set();                  //initialize the set
+		set::add(struct node * toadd, int hit, int d);    // add an item
+		set::read(struct node * toread, int hit, int d);
+		set::updatelru();
+		set::history(int f);    //show line history
+		set();                  //initialize the set
 	private:
 		struct node head [numlines];  //linked list of lines, being head implies that that item is currently in the cache the rest are line history
 		int lru[numlines];            // 0-3, 3 gets evicted on write
