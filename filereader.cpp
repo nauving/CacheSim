@@ -14,10 +14,9 @@ int main(char argc, int argv[]){
 	while(on){
 		x++;
 		on = c.unpack(&parse);
-		cout << "\nvalue of on is: " << on << " THANKS HAVE A NICE DAY";
 	}
-	cout << "\nEnd!";
 	c.history();
+	c.print();
 }
 
 /*

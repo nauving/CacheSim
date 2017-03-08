@@ -6,17 +6,13 @@ using namespace std;
 int cache::unpack(Parser * p){
 	MemInstr temp = MemInstr();
 	p->NxtPkg(temp);
-	cout << "\nreturned from NxtPkg\n";
 	if (p->IsEof()) {
-		cout << "p->IsEof() returning 1 here\n";
 		return 0;
 	}
 	else if (temp.IsEnd()) {
-		cout << "isend is true???";
 		return 0;
 	}
 	else if (temp.IsValid()) {
-		cout << "valid!";
 		CmdType c = temp.GetCmd();
 		if (c != n) {
 			if (c == t) {
@@ -24,7 +20,6 @@ int cache::unpack(Parser * p){
 				return 1;
 			} else if (c == v) {
 				//DO PRINTVERSION()
-				cout << "\nIf you are reading this you are in deeeeeep shit";
 				return 0;
 			} else if (c == d) {
 				flags[1] = true;
@@ -44,7 +39,6 @@ int cache::unpack(Parser * p){
 			}
 		}
 	}
-	cout << "\At very bottom of unpack()";
 	return 0;
 }
 
@@ -54,7 +48,8 @@ void cache::read(MemInstr &addr){
 	int dirt = 0;
 	
 	node * tmp = new node;
-	tmp->data = &addr;		// CHECK THIS &addr LATER MIGHT BE WRONG
+	tmp->data = &addr;
+	cout << tmp->data->Dump();
 	tmp->next = 0;
 	tmp->flag = flags[1];
 	
@@ -78,7 +73,8 @@ int cache::hash(node * addr) {
 	int dirt = 0;; //used to tell if a modified line was evicted
 	
 	node * tmp = new node;
-	tmp->data = &addr;		// CHECK THIS &addr LATER MIGHT BE WRONG
+	tmp->data = &addr;
+	cout << tmp->data->Dump();
 	tmp->next = 0;
 	tmp->flag = flags[1];
 	
@@ -96,30 +92,30 @@ int cache::hash(node * addr) {
 	int tmp1 = hits[0] + misses[0]; //total reads
 	int tmp2 = hits[1] + misses[1]; //total writes
 	
-	printf("There were %d Cache stores", tmp2);
-	printf("There were %d Cache loads", tmp1);
+	printf("\nThere were %d Cache stores", tmp2);
+	printf("\nThere were %d Cache loads", tmp1);
 	tmp2 = tmp2 + tmp1; //total mem accesses
-	printf("There were %d total memory refrences",tmp2);
+	printf("\nThere were %d total memory refrences",tmp2);
 	
-	printf("There were %d Cache read hits", hits[0]);
-	printf("There were %d Cache write hits", hits[1]);
+	printf("\nThere were %d Cache read hits", hits[0]);
+	printf("\nThere were %d Cache write hits", hits[1]);
 	tmp1=hits[0]+hits[1]; //total hits
-	printf("There were %d total Cache hits", tmp1);
+	printf("\nThere were %d total Cache hits", tmp1);
 	
-	printf("There were %d Cache read misses", misses[0]);
-	printf("There were %d Cache write misses", misses[1]);
+	printf("\nThere were %d Cache read misses", misses[0]);
+	printf("\nThere were %d Cache write misses", misses[1]);
 	tmp1 = misses[0]+misses[1]; //total misses
-	printf("There were %d total Cache misses", tmp1);
+	printf("\nThere were %d total Cache misses", tmp1);
 	tmp1 = misses[0] + misses[1];
-	printf("There were %d stream ins",tmp1); //i think that this happens when there is a miss
-	printf("There were %d stream outs",dirty_evicts);// happens on eviction of line w dirty bit set to 1
+	printf("\nThere were %d stream ins",tmp1); //i think that this happens when there is a miss
+	printf("\nThere were %d stream outs",dirty_evicts);// happens on eviction of line w dirty bit set to 1
 
 	tmp1 = (50 * tmp1) + hits[0] + hits[1];
-	printf("Exectution took %d cycles", tmp1);//print total cycles w cahce
+	printf("\nExectution took %d cycles", tmp1);//print total cycles w cahce
 	tmp2 = (50 * (misses[0] + misses[1])) + (50 * (hits[0] + hits[1]));
-	printf("Without the cache execution would have taken %d Cycles", tmp2);//print how many cycles w/o cache
+	printf("\nWithout the cache execution would have taken %d Cycles", tmp2);//print how many cycles w/o cache
 	tmp2 = tmp2 - tmp1;
-	printf("Having the Cache Saved %d Cycles",tmp2);//print cycles saved by cache
+	printf("\nHaving the Cache Saved %d Cycles",tmp2);//print cycles saved by cache
  }
  
 void cache::history(){

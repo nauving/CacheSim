@@ -64,7 +64,7 @@ int MemInstr::SetMode(string s) {
 
 int MemInstr::SetAddr(string address) {
 	strAddr = address;
-	addr = stol(address.substr(2, (address.length()-2)));
+	addr = stol(address.substr(2, (address.length()-2)), nullptr, 16);
 	return 1;
 }
 
@@ -79,7 +79,7 @@ string MemInstr::Dump() {
 	if (cmd == t) { s = "Command is '-t'"; }
 	if (cmd == v) { s = "Command is '-v'"; }
 	if (cmd == n) {
-		s = "Mode is ";
+		s = "\nMode is ";
 		if (mode == READ) {
 			s += "READ";
 		} else if (mode == WRITE) {
