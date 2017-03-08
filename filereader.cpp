@@ -3,6 +3,7 @@
 #include <fstream>
 #include "parser.h"
 #include "cache.h"
+#include "meminstr.h"
 using namespace std;
 
 int main(char argc, int argv[]){

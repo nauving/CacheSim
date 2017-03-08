@@ -3,10 +3,16 @@
 
 using namespace std;
 
-int cache::unpack(Parser * p) {
-	MemInstr * temp = p->NxtPkg();
+int cache::unpack(Parser * p){
+	MemInstr * temp = new MemInstr();
+	p->NxtPkg(temp);
 	cout << "\nreturned from NxtPkg\n";
-	if (p->IsEof() || temp->IsEnd()) { // || (temp->IsEnd())){
+	if (p->IsEof()) {
+		cout << "p->IsEof() returning 1 here\n";
+		return 0;
+	}
+	else if (temp->IsEnd()) {
+		cout << "isend is true???";
 		return 0;
 	}
 	else if (temp->IsValid()) {
@@ -18,6 +24,7 @@ int cache::unpack(Parser * p) {
 				return 1;
 			} else if (c == v) {
 				//DO PRINTVERSION()
+				cout << "\nIf you are reading this you are in deeeeeep shit";
 				return 0;
 			} else if (c == d) {
 				flags[1] = true;
@@ -37,6 +44,7 @@ int cache::unpack(Parser * p) {
 			}
 		}
 	}
+	cout << "\At very bottom of unpack()";
 	return 0;
 }
 

@@ -18,9 +18,8 @@ Parser::Parser(string name) {
 	dataFile.close();
 }*/
 
-MemInstr * Parser::NxtPkg()
+void Parser::NxtPkg(MemInstr * temp)
 {
-	MemInstr * temp;
 	cout << "1";
 	if (!eofd) {
 		cout << "2";
@@ -28,22 +27,26 @@ MemInstr * Parser::NxtPkg()
 		cout << "3";
 		string tok1;
 		if (str.length() > 2) {
-			return NxtPkg();
+			NxtPkg(temp);
 		}
 		else if (str.length() == 2) {
+			cout << "im in here!";
 			if (str.substr(0, 1) == "-") {
 				if ((str.substr(1, 1) == "d") || (str.substr(1, 1) == "D") || (str.substr(1, 1) == "v") || (str.substr(1, 1) == "V") || (str.substr(1, 1) == "t") || (str.substr(1, 1) == "T")) {
 					tok1 = str;
-				}
+					}
 				else {
-					return NxtPkg();
+					NxtPkg(temp);
 				}
 			}
 			//cout << "*****************************\nCreating MemInstr(" << tok1 << ")\n";
-			return &MemInstr(tok1);
+			temp = new MemInstr(tok1);
+			temp->SetEnd(false);
+			temp->SetValid();
+			cout << "\nStatus of temp->IsValid() is: " << temp->IsValid();
+			return;
 		}
 		else if (str.length() == 1) {
-			cout << "4";
 			if ((str == "r") || (str == "R") || (str == "w") || (str == "W")) {
 				//cout << "\nFound a read/write command!" << endl;
 				tok1 = str;
@@ -53,27 +56,24 @@ MemInstr * Parser::NxtPkg()
 					cout << "\nIN DO/WHILE\n";
 					//cout << "\nI'm in the do/while loop to find a valid hex value" << endl;
 					str = NextToken();
-					cout << "5";
 				} while ((str.substr(0, 2) != "0x") && (str.length() >= 3));
 				tok2 = str;
 				//cout << "*****************************\nCreating MemInstr(" << tok1 << ", " << tok2 << ")\n";
-				cout << "\nabout to return";
-				temp = &MemInstr(tok1, tok2);
-				return temp;
+				temp = new MemInstr(tok1, tok2);
+				return;
 			} else {
-				return NxtPkg();
+				NxtPkg(temp);
 			}
 		} else {
-			return NxtPkg();
+			NxtPkg(temp);
+			return;
 		}
 	} else {
-		temp = &MemInstr();
-		temp->SetEnd();
+		temp =  new MemInstr();
+		temp->SetEnd(true);
 		temp->SetValid();
-		return temp;
+		return;
 	}
-	temp = &MemInstr();
-	return temp;
 }
 
 string Parser::NextToken() {

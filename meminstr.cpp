@@ -68,8 +68,8 @@ int MemInstr::SetAddr(string address) {
 	return 1;
 }
 
-int MemInstr::SetEnd() {
-	end = true;
+int MemInstr::SetEnd(bool n) {
+	end = n;
 	return 1;
 }
 
