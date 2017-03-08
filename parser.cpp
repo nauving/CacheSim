@@ -18,8 +18,9 @@ Parser::Parser(string name) {
 	dataFile.close();
 }*/
 
-void Parser::NxtPkg(MemInstr * temp)
+void Parser::NxtPkg(MemInstr &temp)
 {
+	MemInstr m;
 	cout << "1";
 	if (!eofd) {
 		cout << "2";
@@ -40,10 +41,11 @@ void Parser::NxtPkg(MemInstr * temp)
 				}
 			}
 			//cout << "*****************************\nCreating MemInstr(" << tok1 << ")\n";
-			temp = new MemInstr(tok1);
-			temp->SetEnd(false);
-			temp->SetValid();
-			cout << "\nStatus of temp->IsValid() is: " << temp->IsValid();
+			m = MemInstr(tok1);
+			m.SetEnd(false);
+			m.SetValid();
+			cout << "\nStatus of temp->IsValid() is: " << m.IsValid();
+			m.CopyInstr(temp);
 			return;
 		}
 		else if (str.length() == 1) {
@@ -59,7 +61,8 @@ void Parser::NxtPkg(MemInstr * temp)
 				} while ((str.substr(0, 2) != "0x") && (str.length() >= 3));
 				tok2 = str;
 				//cout << "*****************************\nCreating MemInstr(" << tok1 << ", " << tok2 << ")\n";
-				temp = new MemInstr(tok1, tok2);
+				m = MemInstr(tok1, tok2);
+				m.CopyInstr(temp);
 				return;
 			} else {
 				NxtPkg(temp);
@@ -69,9 +72,10 @@ void Parser::NxtPkg(MemInstr * temp)
 			return;
 		}
 	} else {
-		temp =  new MemInstr();
-		temp->SetEnd(true);
-		temp->SetValid();
+		m = MemInstr();
+		m.SetEnd(true);
+		m.SetValid();
+		m.CopyInstr(temp);
 		return;
 	}
 }

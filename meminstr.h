@@ -22,15 +22,16 @@ public:
 	MemInstr();                             // Default constructor forward declaration
 	MemInstr(string token1, string token2); // 2 token constructor forward declaration
 	MemInstr(string command);               // 1 token constructor forward declaration
-	string MemInstr::Dump();		// Dump forward declaration. This function is only used for debug.
-	bool IsValid() { return valid; }	// TRUE when the data in the MemInstr package is valid
-	bool IsEnd() { return end; }		// TRUE when the EOF has been reached and the Parser packages this as an EOF type MemInstr
-	int SetValid();				// SetValid forward declaration
+	string MemInstr::Dump();			// Dump forward declaration. This function is only used for debug.
+	bool MemInstr::IsValid() { return valid; }	// TRUE when the data in the MemInstr package is valid
+	bool MemInstr::IsEnd() { return end; }		// TRUE when the EOF has been reached and the Parser packages this as an EOF type MemInstr
+	int MemInstr::SetValid();					// SetValid forward declaration
 	CmdType MemInstr::GetCmd();		// GetCmd forward declaration
 	Mode MemInstr::GetMode();		// GetMode forward declaration
 	long MemInstr::LAddr();			// Long int version of getAddress forward declaration
 	string MemInstr::SAddr();		// String version of getAddress forward declaration
-	int SetEnd(bool n);					// SetEnd forward declaration
+	void MemInstr::CopyInstr(MemInstr &target);	// CopyInstr forward declaration
+	int MemInstr::SetEnd(bool n);					// SetEnd forward declaration
 private:
 	int SetCmd(string command);  // SetCmd forward declaration
 	int SetMode(string mode);    // SetMode forward declaration

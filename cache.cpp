@@ -4,20 +4,20 @@
 using namespace std;
 
 int cache::unpack(Parser * p){
-	MemInstr * temp = new MemInstr();
+	MemInstr temp = MemInstr();
 	p->NxtPkg(temp);
 	cout << "\nreturned from NxtPkg\n";
 	if (p->IsEof()) {
 		cout << "p->IsEof() returning 1 here\n";
 		return 0;
 	}
-	else if (temp->IsEnd()) {
+	else if (temp.IsEnd()) {
 		cout << "isend is true???";
 		return 0;
 	}
-	else if (temp->IsValid()) {
+	else if (temp.IsValid()) {
 		cout << "valid!";
-		CmdType c = temp->GetCmd();
+		CmdType c = temp.GetCmd();
 		if (c != n) {
 			if (c == t) {
 				flags[0] = true;
@@ -32,13 +32,13 @@ int cache::unpack(Parser * p){
 			} //end if
 		} else {
 			long l;
-			Mode m = temp->GetMode();
+			Mode m = temp.GetMode();
 			if (m == READ) {
-				 l = temp->LAddr();
+				 l = temp.LAddr();
 				 read(temp);
 				return 1;
 			} else if (m == WRITE) {
-				l = temp->LAddr();
+				l = temp.LAddr();
 				write(temp);
 				return 1;
 			}
@@ -48,13 +48,13 @@ int cache::unpack(Parser * p){
 	return 0;
 }
 
-void cache::read(MemInstr * addr){
+void cache::read(MemInstr &addr){
 	int hit = 0;
 	int setnum = 0;
 	int dirt = 0;
 	
 	node * tmp = new node;
-	tmp->data = addr;
+	tmp->data = &addr;		// CHECK THIS &addr LATER MIGHT BE WRONG
 	tmp->next = 0;
 	tmp->flag = flags[1];
 	
@@ -72,13 +72,13 @@ int cache::hash(node * addr) {
 	return (addr->data->LAddr() % numsets);
 }
 
- void cache::write(MemInstr* addr){
+ void cache::write(MemInstr &addr){
 	int hit = 0;
 	int setnum = 0;
 	int dirt = 0;; //used to tell if a modified line was evicted
 	
 	node * tmp = new node;
-	tmp->data = addr;
+	tmp->data = &addr;		// CHECK THIS &addr LATER MIGHT BE WRONG
 	tmp->next = 0;
 	tmp->flag = flags[1];
 	

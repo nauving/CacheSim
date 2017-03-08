@@ -107,3 +107,12 @@ CmdType MemInstr::GetCmd(){
 Mode MemInstr::GetMode(){
 	return mode;
 }
+
+void MemInstr::CopyInstr(MemInstr &target) {
+	target.cmd = this->cmd;
+	target.mode = this->mode;
+	target.addr = this->addr;
+	target.strAddr = this->strAddr;
+	target.valid = this->valid;
+	target.end = this->end;
+}

@@ -16,7 +16,7 @@ class Parser {
 public:
 	Parser::Parser();		// Default constructor forward declaration
 	Parser::Parser(string fname);	// Custom filename constructor forward declaration
-	void Parser::NxtPkg(MemInstr * temp);	// NxtPkg forward declaration
+	void Parser::NxtPkg(MemInstr &temp);	// NxtPkg forward declaration
 	string Parser::PrintLine();	// PrintLine forward declaration
 	string Parser::PrintToken();	// PrintToken forward declaration
 	bool Parser::IsEof();
