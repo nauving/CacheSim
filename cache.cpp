@@ -3,14 +3,15 @@
 
 using namespace std;
 
-int cache::unpack(Parser p) {
-	//if EOF return 0;
-	MemInstr temp = p.NxtPkg();
-	if (p.IsEof()){
+int cache::unpack(Parser * p) {
+	MemInstr * temp = p->NxtPkg();
+	cout << "\nreturned from NxtPkg\n";
+	if (p->IsEof() || temp->IsEnd()) { // || (temp->IsEnd())){
 		return 0;
 	}
-	else if (temp.IsValid()) {
-		CmdType c = temp.GetCmd();
+	else if (temp->IsValid()) {
+		cout << "valid!";
+		CmdType c = temp->GetCmd();
 		if (c != n) {
 			if (c == t) {
 				flags[0] = true;
@@ -20,18 +21,18 @@ int cache::unpack(Parser p) {
 				return 0;
 			} else if (c == d) {
 				flags[1] = true;
-				return 0;
+				return 1;
 			} //end if
 		} else {
 			long l;
-			Mode m = temp.GetMode();
+			Mode m = temp->GetMode();
 			if (m == READ) {
-				 l = temp.LAddr();
-				//DO READ(l)
+				 l = temp->LAddr();
+				 read(temp);
 				return 1;
 			} else if (m == WRITE) {
-				l = temp.LAddr();
-				//DO WRITE(l)
+				l = temp->LAddr();
+				write(temp);
 				return 1;
 			}
 		}
@@ -49,7 +50,7 @@ void cache::read(MemInstr * addr){
 	tmp->next = 0;
 	tmp->flag = flags[1];
 	
-	hash(tmp, setnum);//figure out what set the data should be sough in
+	setnum = hash(tmp);//figure out what set the data should be sough in
 	sets[setnum].read(tmp, hit, dirt);
 	if (dirt)
 		++dirty_evicts;
@@ -59,9 +60,8 @@ void cache::read(MemInstr * addr){
 		++misses[0];
  }
  
-void cache::hash(node * addr, int set) {
-	// DO STUFF
-	return;
+int cache::hash(node * addr) {
+	return (addr->data->LAddr() % numsets);
 }
 
  void cache::write(MemInstr* addr){
@@ -74,7 +74,7 @@ void cache::hash(node * addr, int set) {
 	tmp->next = 0;
 	tmp->flag = flags[1];
 	
-	hash(tmp, setnum);//figure out which set the data will be added to
+	setnum = hash(tmp);//figure out which set the data will be added to
 	sets[setnum].add(tmp, hit, dirt);
 	if (dirt)
 		++dirty_evicts;

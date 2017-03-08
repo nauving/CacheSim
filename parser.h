@@ -16,11 +16,12 @@ class Parser {
 public:
 	Parser::Parser();		// Default constructor forward declaration
 	Parser::Parser(string fname);	// Custom filename constructor forward declaration
-	MemInstr Parser::NxtPkg();	// NxtPkg forward declaration
+	MemInstr * Parser::NxtPkg();	// NxtPkg forward declaration
 	string Parser::PrintLine();	// PrintLine forward declaration
 	string Parser::PrintToken();	// PrintToken forward declaration
 	bool Parser::IsEof();
 private:
+	//Parser::~Parser();			// Deconstructor forward declaration
 	string Parser::NextToken();	// NextToken forward declaration
 	void Parser::NextLine();	// NextLine forward declaration
 	int Parser::OpenFile();		// OpenFile forward declaration

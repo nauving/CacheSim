@@ -14,10 +14,18 @@ Parser::Parser(string name) {
 	eofd = false;
 }
 
-MemInstr Parser::NxtPkg()
+/*Parser::~Parser() {
+	dataFile.close();
+}*/
+
+MemInstr * Parser::NxtPkg()
 {
+	MemInstr * temp;
+	cout << "1";
 	if (!eofd) {
+		cout << "2";
 		string str = NextToken();
+		cout << "3";
 		string tok1;
 		if (str.length() > 2) {
 			return NxtPkg();
@@ -31,31 +39,41 @@ MemInstr Parser::NxtPkg()
 					return NxtPkg();
 				}
 			}
-			cout << "*****************************\nCreating MemInstr(" << tok1 << ")\n";
-			return MemInstr(tok1);
+			//cout << "*****************************\nCreating MemInstr(" << tok1 << ")\n";
+			return &MemInstr(tok1);
 		}
 		else if (str.length() == 1) {
+			cout << "4";
 			if ((str == "r") || (str == "R") || (str == "w") || (str == "W")) {
 				//cout << "\nFound a read/write command!" << endl;
 				tok1 = str;
 				//cout << "\nCurrent token is: " << PrintToken() << endl;
 				string tok2;
 				do {
+					cout << "\nIN DO/WHILE\n";
 					//cout << "\nI'm in the do/while loop to find a valid hex value" << endl;
 					str = NextToken();
+					cout << "5";
 				} while ((str.substr(0, 2) != "0x") && (str.length() >= 3));
 				tok2 = str;
-				cout << "*****************************\nCreating MemInstr(" << tok1 << ", " << tok2 << ")\n";
-				return MemInstr(tok1, tok2);
-			}
-			else {
+				//cout << "*****************************\nCreating MemInstr(" << tok1 << ", " << tok2 << ")\n";
+				cout << "\nabout to return";
+				temp = &MemInstr(tok1, tok2);
+				return temp;
+			} else {
 				return NxtPkg();
 			}
-		}
-		else {
+		} else {
 			return NxtPkg();
 		}
+	} else {
+		temp = &MemInstr();
+		temp->SetEnd();
+		temp->SetValid();
+		return temp;
 	}
+	temp = &MemInstr();
+	return temp;
 }
 
 string Parser::NextToken() {
@@ -67,6 +85,9 @@ string Parser::NextToken() {
 		if (!eofd) {
 			NextLine();
 			return NextToken();
+		}
+		else {
+			return token;
 		}
 	}
 }

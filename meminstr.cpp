@@ -5,19 +5,27 @@ MemInstr::MemInstr() {
 	mode = NONE;
 	addr = NULL;
 	valid = false;
+	end = false;
 }
 
 MemInstr::MemInstr(string token1, string token2) {
 	cmd = n;
+	end = false;
 	if (SetMode(token1) && SetAddr(token2)) {
 		valid = true;
 	}
 }
 
 MemInstr::MemInstr(string command) {
+	end = false;
 	if (SetCmd(command)) {
 		valid = true;
 	}
+}
+
+int MemInstr::SetValid() {
+	valid = true;
+	return 1;
 }
 
 int MemInstr::SetCmd(string command) {
@@ -56,7 +64,12 @@ int MemInstr::SetMode(string s) {
 
 int MemInstr::SetAddr(string address) {
 	strAddr = address;
-	addr = stol(address);
+	addr = stol(address.substr(2, (address.length()-2)));
+	return 1;
+}
+
+int MemInstr::SetEnd() {
+	end = true;
 	return 1;
 }
 

@@ -1,22 +1,22 @@
 #include "set.h"
 
 void set::history(int f){
-		struct node * tmp;
-		for (int i = 0; i < numlines; ++i){
-			tmp = head[i];
-			while(tmp){
-				if(f){ //-d debug command
-					//show if r/w
-					//hit or miss
-					//tag
-					//dirty
-					//valid
-				}
-				//print stuff in the line
-				tmp->data->Dump();
-				tmp = tmp->next; //traverse list
+	struct node * tmp;
+	for (int i = 0; i < numlines; ++i){
+		tmp = head[i];
+		while(tmp){
+			if(f){ //-d debug command
+				//show if r/w
+				//hit or miss
+				//tag
+				//dirty
+				//valid
 			}
-		}	
+			//print stuff in the line
+			tmp->data->Dump();
+			tmp = tmp->next; //traverse list
+		}
+	}	
 }
 
 set::set(){

@@ -11,9 +11,9 @@ class cache {
 		void write(MemInstr * addr); //write an item to the cache
 		void print();
 		void history(); //if f = 1 the hist op is a dump debug command
-		int unpack(Parser p);
+		int unpack(Parser * p);
 	private:
-		void hash(struct node * addr, int set); //
+		int cache::hash(node * addr);	// hash forward declaration
 		set sets[numsets];//set data structure
 		int hits[2];  //hits[0] read hits hits[1] write hits
 		int misses[2];//misses[0] read hits misses[1] write misses

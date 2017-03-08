@@ -5,19 +5,21 @@
 #include "cache.h"
 using namespace std;
 
-/*int main(argc, argv[]){
-	string str;
-	cout << "Please enter the name of the file that contains the inputs: ";
-	cin >> str;
-	Parser parse(str);
-	cache c();
+int main(char argc, int argv[]){
+	Parser parse = Parser("file.txt");
+	cache c = cache();
 	int on = 1;
+	int x = 0;
 	while(on){
-		on = c.unpack(parse);
+		x++;
+		on = c.unpack(&parse);
+		cout << "\nvalue of on is: " << on << " THANKS HAVE A NICE DAY";
 	}
-}*/
+	cout << "\nEnd!";
+	c.history();
+}
 
-
+/*
 int main(int argc, char* argv[]) {
 	Parser ptest("file.txt");
 	MemInstr m;
@@ -32,4 +34,4 @@ int main(int argc, char* argv[]) {
 	} while ((m.IsValid()) && (!ptest.IsEof()));
 	return 0;
 }
-
+*/
