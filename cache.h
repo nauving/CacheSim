@@ -7,7 +7,7 @@
 
 class cache {
   public:
-		cache::cache();
+		cache();
 		void read(MemInstr addr); //read an item from the cache
 		void write(MemInstr addr); //write an item to the cache
 		void print();

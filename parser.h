@@ -19,16 +19,16 @@ struct traceNode {
 
 class Parser {
 public:
-	Parser::Parser();		// Default constructor forward declaration
-	Parser::Parser(string fname);	// Custom filename constructor forward declaration
-	void Parser::NxtPkg(MemInstr &temp);	// NxtPkg forward declaration
-	string Parser::PrintLine();	// PrintLine forward declaration
-	string Parser::PrintToken();	// PrintToken forward declaration
-	bool Parser::IsEof();
+	Parser();		// Default constructor forward declaration
+	Parser(string fname);	// Custom filename constructor forward declaration
+	void NxtPkg(MemInstr &temp);	// NxtPkg forward declaration
+	string PrintLine();	// PrintLine forward declaration
+	string PrintToken();	// PrintToken forward declaration
+	bool IsEof();
 private:
-	string Parser::NextToken();	// NextToken forward declaration
-	void Parser::NextLine();	// NextLine forward declaration
-	int Parser::OpenFile();		// OpenFile forward declaration
+	string NextToken();	// NextToken forward declaration
+	void NextLine();	// NextLine forward declaration
+	int OpenFile();		// OpenFile forward declaration
 	Tokenizer tok;			// Tokenizer used to process lines
 	string fileName;		// "input.txt" by default
 	string line;			// stores the current line from the file

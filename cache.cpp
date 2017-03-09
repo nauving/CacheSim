@@ -52,7 +52,7 @@ void cache::read(MemInstr addr){
 	
 	node * tmp = new node;
 	tmp->data = addr;
-	cout << tmp->data.Dump();
+	//cout << tmp->data.Dump();
 	tmp->next = 0;
 	tmp->flag = flags[1];
 	
@@ -77,7 +77,7 @@ int cache::hash(node * addr) {
 	
 	node * tmp = new node;
 	tmp->data = addr;
-	cout << tmp->data.Dump();
+	//cout << tmp->data.Dump();
 	tmp->next = 0;
 	tmp->flag = flags[1];
 	
