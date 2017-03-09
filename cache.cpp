@@ -2,7 +2,10 @@
 #include "cache.h"
 
 using namespace std;
-
+cache::cache(){
+	flags[0] = 0;
+	flags[1] = 0;
+}
 int cache::unpack(Parser * p){
 	MemInstr temp = MemInstr();
 	p->NxtPkg(temp);
@@ -54,7 +57,7 @@ void cache::read(MemInstr addr){
 	tmp->flag = flags[1];
 	
 	setnum = hash(tmp);//figure out what set the data should be sough in
-	sets[setnum].read(tmp, hit, dirt);
+	sets[setnum].read(tmp, hit, dirt,flags[1]);
 	if (dirt)
 		++dirty_evicts;
 	if (hit)
@@ -79,7 +82,7 @@ int cache::hash(node * addr) {
 	tmp->flag = flags[1];
 	
 	setnum = hash(tmp);//figure out which set the data will be added to
-	sets[setnum].add(tmp, hit, dirt);
+	sets[setnum].add(tmp, hit, dirt,flags[1]);
 	if (dirt)
 		++dirty_evicts;
 	if(hit)

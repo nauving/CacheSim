@@ -16,10 +16,10 @@ struct node{
 class set{
 	public:
 		set::set();		// set constructor forward declaration
-		void set::add(struct node * toadd, int &hit, int &d);    // add an item
-		void set::read(struct node * toread, int &hit, int &d);
+		void set::add(struct node * toadd, int &hit, int &d, int f);    // add an item
+		void set::read(struct node * toread, int &hit, int &d, int f);
 		void set::updatelru(int val);
-		void set::sethistory(int f);    //show line history
+		void set::sethistory();    //show line history
 	private:
 		struct node * head [numlines];  //linked list of lines, being head implies that that item is currently in the cache the rest are line history
 		int lru[numlines];            // 0-3, 3 gets evicted on write

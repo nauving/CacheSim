@@ -9,18 +9,15 @@ set::set() {
 	}
 }
 
-void set::sethistory(int f){
+void set::sethistory(){
 	struct node * tmp;
 	for (int i = 0; i < numlines; ++i){
 		tmp = head[i];
+		//show if r/w
 		while(tmp){
-			if(f){ //-d debug command
-				//show if r/w
-				//hit or miss
-				//tag
-				//dirty
-				//valid
-			}
+			cout << tmp.hit;//hit or miss
+			cout << tmp.tag;//tag
+			cout << tmp.dirty();//dirty
 			//print stuff in the line
 			cout << tmp->data.SAddr();
 			tmp->data.Dump();
@@ -44,24 +41,23 @@ void set::updatelru(int val){ //val is the lru of an item in a hit
 	}
 }					//new lines init to lru 0, doesnt matter if unused lines are updated
 
- void set::add(struct node * toadd, int &hit, int &d){
+ void set::add(struct node * toadd, int &hit, int &d, int f){
 	int tmp = 0;
 	for(int i = 0; i < numlines; ++i){
 		if (valid[i]){ //line has good data
-			cout << "\ntoadd data.LAddr() = " << toadd->data.LAddr();
-			cout << "\ntoadd head[i].LAddr() = " << head[i]->data.LAddr();
+
 			if(toadd->data.LAddr() == head[i]->data.LAddr()){ //if there is a cache hit
 				dirty[i] = 1;
 				hit = 1;
 				updatelru(lru[i]);
 				lru[i] = 0;
-				toadd->next = head[i]; //make head next item in list
+				if(f)
+					toadd->next = head[i];				//make head next item in list
 				head[i] = toadd;
 				head[i]->hit = 1;
 				return;
 			}
 			if (lru[i] == 3) { //item has LRU of 3 and is valid
-				cout << "\nProbably need to evict";
 				tmp = i; //is the item being replace dirty?
 			}
 		}	
@@ -78,22 +74,20 @@ void set::updatelru(int val){ //val is the lru of an item in a hit
 	if (dirty[tmp]) {//track cycles for write to main mem
 		d = 1;
 	}
-	cout << "1";
 	head[tmp]->lru = lru[tmp];
 	head[tmp]->dirty = dirty[tmp];
-	toadd->next = head[tmp]; //add head to list
-	cout << "2";
+	if(f)
+		toadd->next = head[tmp]; //add head to list
 	head[tmp] = toadd; //make heat point at new data;
 	lru[tmp] = -1;  //lets updatelru() work right
 	dirty[tmp] = 1; //write implies data is modified
 	updatelru(-1); //passing -1 implies no hit
-	cout << "3";
 	hit = 0;
 	head[tmp]->hit = 0;
 	return;
  }
  
- void set::read(struct node * toread, int &hit, int &d){
+ void set::read(struct node * toread, int &hit, int &d, int f){
 	int tmp = 0;
 	for(int i = 0; i < numlines; ++i){
 		if (valid[i]){ //line has good data
@@ -101,9 +95,11 @@ void set::updatelru(int val){ //val is the lru of an item in a hit
 				hit = 1;
 				updatelru(lru[i]);
 				lru[i] = 0;
-				toread->next = head[i]; //make head next item in list
+				if(f)
+					toread->next = head[i]; //make head next item in list if -d
 				head[i] = toread;
-				head[i]->hit = hit;
+				if(f)
+					head[i]->hit = hit;
 				return;
 			}
 			if (lru[i] == 3) //item has LRU of 3 and is valid			
@@ -119,7 +115,8 @@ void set::updatelru(int val){ //val is the lru of an item in a hit
 	//getting here implies that there was no hit 
 	if(dirty[tmp])//track cycles for write to main mem
 		d = 1;
-	toread->next = head[tmp]; //add head to list
+	if(f)
+		toread->next = head[tmp]; //add head to list if -d
 	head[tmp] = toread; //make heat point at new data;
 	lru[tmp] = -1;  //lets updatelru() work right
 	dirty[tmp] = 0; //write implies data is modified
