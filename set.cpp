@@ -15,14 +15,16 @@ void set::sethistory(){
 		tmp = head[i];
 		//show if r/w
 		while(tmp){
-			cout << "\n\n\ntmp->flag: " << tmp->flag;
-			cout << "\ntmp->hit: " << tmp->hit;//hit or miss
-			cout << "\ntmp->tag: " << tmp->tag;//tag
-			cout << "\ntmp->dirty: " << tmp->dirty;//dirty
-			//print stuff in the line
-			cout << "\ntmp->data.SAddr: " << tmp->data.SAddr();
-			cout << "\ntmp->data.Dump: " << tmp->data.Dump();
-			tmp = tmp->next; //traverse list
+			if (tmp->flag) {
+				cout << "\n\n\ntmp->flag: " << tmp->flag;
+				cout << "\ntmp->hit: " << tmp->hit;//hit or miss
+				cout << "\ntmp->tag: " << tmp->tag;//tag
+				cout << "\ntmp->dirty: " << tmp->dirty;//dirty
+				//print stuff in the line
+				cout << "\ntmp->data.SAddr: " << tmp->data.SAddr();
+				cout << "\ntmp->data.Dump: " << tmp->data.Dump();
+				tmp = tmp->next; //traverse list
+			}
 		}
 	}	
 }
