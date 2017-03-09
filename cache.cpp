@@ -60,7 +60,6 @@ void cache::read(MemInstr addr){
 	//cout << tmp->data.Dump();
 	tmp->next = 0;
 	tmp->flag = flags[1];
-	cout << "\nflags[1]: " << flags[1] << " and tmp->flag: " << tmp->flag;
 	tmp->dirty = 0;
 	tmp->hit = 0;
 	
@@ -87,10 +86,8 @@ int cache::hash(node * addr) {
 	
 	node * tmp = new node;
 	tmp->data = addr;
-	//cout << tmp->data.Dump();
 	tmp->next = 0;
 	tmp->flag = flags[1];
-	cout << "\nflags[1]: " << flags[1] << " and tmp->flag: " << tmp->flag;
 	tmp->dirty = 0;
 	tmp->hit = 0;
 	

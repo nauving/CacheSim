@@ -45,7 +45,6 @@ void set::updatelru(int val){ //val is the lru of an item in a hit
 }					//new lines init to lru 0, doesnt matter if unused lines are updated
 
  void set::add(struct node * toadd, int &hit, int &d, int f){
-	cout << "\ntoadd flag: " << toadd->flag;
 	int tmp = 0;
 	for(int i = 0; i < numlines; ++i){
 		if (valid[i]){ //line has good data
@@ -55,7 +54,6 @@ void set::updatelru(int val){ //val is the lru of an item in a hit
 				hit = 1;
 				updatelru(lru[i]);
 				lru[i] = 0;
-				cout << "\n!!!!!!!__ADD__!!!!!!!\n f: " << f;
 				if(f)
 					toadd->next = head[i];				//make head next item in list
 				head[i] = toadd;
@@ -93,7 +91,6 @@ void set::updatelru(int val){ //val is the lru of an item in a hit
  }
  
  void set::read(struct node * toread, int &hit, int &d, int f){
-	cout << "\ntoadd flag: " << toread->flag;
 	int tmp = 0;
 	for(int i = 0; i < numlines; ++i){
 		if (valid[i]){ //line has good data
@@ -101,7 +98,6 @@ void set::updatelru(int val){ //val is the lru of an item in a hit
 				hit = 1;
 				updatelru(lru[i]);
 				lru[i] = 0;
-				cout << "\n!!!!!!!__READ__!!!!!!!\n f: " << f;
 				if(f)
 					toread->next = head[i]; //make head next item in list if -d
 				head[i] = toread;
