@@ -7,7 +7,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include "MemInstr.h"
+#include "meminstr.h"
 #include "Tokenizer.h"
 
 using namespace std;
