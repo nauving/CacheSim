@@ -109,18 +109,14 @@ int Parser::OpenFile() {
 	}
 }
 
-void Parser::Trace() {
-	traceNode * tptr = listHead;
-	int x = 0;
-	cout << "__________ Trace __________\n";
-	while (tptr) {
+void Parser::Trace(traceNode * tptr, int n) {
+	if (tptr) {
+		Trace(tptr->nextNode, n + 1);
 		cout << "\t" << tptr->instr->Dump();
-		if (!(++x % 3)) {
+		if (!(n % 3)) {
 			cout << "\n";
 		}
-		tptr = tptr->nextNode;
 	}
-	cout << "\n";
 }
 
 string Parser::PrintLine() {

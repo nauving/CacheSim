@@ -14,6 +14,7 @@ class cache {
 		void print();
 		void history(); //if f = 1 the hist op is a dump debug command
 		int unpack(Parser * p);
+		bool getVersion() { return version; }
 	private:
 		int hash(node * addr);	// hash forward declaration
 		set sets[numsets];//set data structure
@@ -22,4 +23,5 @@ class cache {
 		int dirty_evicts; //how many times a modified line was written out
 		bool flags[2]; //flags[0] = 1 means trace is flags[1] means dump
 		int step;
+		bool version;
  };

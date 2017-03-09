@@ -21,10 +21,7 @@ void set::sethistory(int x){
 				cout << "\nset[" << x << "]:";
 				for (int j = 0; j < numlines; j++) {
 					if (head[j]) {
-						if (j < numlines)
-							cout << " [Line " << j << "] LRU: " << lru[j] << " Tag: " << head[j]->tag;
-						else
-							cout << " [Line " << j << "] LRU: " << lru[j] << " Tag: " << head[j]->tag;
+						cout << " [Line " << j << "] LRU: " << lru[j] << " Tag: " << head[j]->tag;
 					}
 				}
 				setused = true;
@@ -81,6 +78,8 @@ void set::updatelru(int val){ //val is the lru of an item in a hit
 			valid[i] = 1; //now has valid data
 			head[i] = toadd; //head is current item in cache
 			head[i]->next = 0;//linked list fun
+			lru[i] = -1;
+			updatelru(-1);
 			return;
 		}
 	}
@@ -123,6 +122,8 @@ void set::updatelru(int val){ //val is the lru of an item in a hit
 			valid[i] = 1; //now has valid data
 			head[i] = toread; //head is current item in cache
 			head[i]->next = 0;//linked list fun
+			lru[i] = -1;
+			updatelru(-1);
 			return;
 		}
 	}

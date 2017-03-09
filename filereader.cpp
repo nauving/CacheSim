@@ -15,24 +15,12 @@ int main(int argc, char * argv[]){
 		x++;
 		on = c.unpack(&parse);
 	}
-	c.cTrace(parse);
-	c.history();
-	c.print();
+	if (!c.getVersion()) {
+		c.cTrace(parse);
+		c.history();
+		c.print();
+	}
+	else {
+		cout << "Cache Simulator v0.9\n";
+	}
 }
-
-/*
-int main(int argc, char* argv[]) {
-	Parser ptest("file.txt");
-	MemInstr m;
-	int x = 0;
-	do {
-		x++;
-		m = ptest.NxtPkg();
-		if (m.IsValid() && !ptest.IsEof()) {
-			cout << "*****************************\nAt dump " << x << ": " << m.Dump() << '\n';
-		}
-		cout << "\nLine is: " << ptest.PrintLine() << '\n' << "Token is: " << ptest.PrintToken() << "\n\n";
-	} while ((m.IsValid()) && (!ptest.IsEof()));
-	return 0;
-}
-*/

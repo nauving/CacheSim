@@ -12,6 +12,7 @@ cache::cache(){
 	misses[1] = 0;
 	dirty_evicts = 0;
 	step = 0;
+	version = 0;
 }
 int cache::unpack(Parser * p){
 	MemInstr temp = MemInstr();
@@ -29,7 +30,7 @@ int cache::unpack(Parser * p){
 				flags[0] = true;
 				return 1;
 			} else if (c == v) {
-				//DO PRINTVERSION()
+				version = true;
 				return 0;
 			} else if (c == d) {
 				flags[1] = true;
@@ -53,7 +54,7 @@ int cache::unpack(Parser * p){
 	}
 	return 0;
 }
-
+ 
 void cache::read(MemInstr addr){
 	int hit = 0;
 	int setnum = 0;
@@ -146,7 +147,9 @@ void cache::print(){ // give info on hits and misses
  
 void cache::cTrace(Parser &p) {
 	if (flags[0]) {
-		p.Trace();
+		cout << "__________ Trace __________\n";
+		p.Trace(p.getHead(), 0);
+		cout << "\n";
 	}
 }
 

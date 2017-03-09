@@ -22,10 +22,11 @@ public:
 	Parser();		// Default constructor forward declaration
 	Parser(string fname);	// Custom filename constructor forward declaration
 	void NxtPkg(MemInstr &temp);	// NxtPkg forward declaration
-	void Trace();		// Trace forward declaration
+	void Trace(traceNode * tptr, int n);		// Trace forward declaration
 	string PrintLine();	// PrintLine forward declaration
 	string PrintToken();	// PrintToken forward declaration
 	bool IsEof();
+	traceNode * getHead() { return listHead; }
 private:
 	string NextToken();	// NextToken forward declaration
 	void NextLine();	// NextLine forward declaration
