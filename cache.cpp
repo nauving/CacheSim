@@ -5,6 +5,11 @@ using namespace std;
 cache::cache(){
 	flags[0] = 0;
 	flags[1] = 0;
+	hits[0] = 0;
+	hits[1] = 0;
+	misses[0] = 0;
+	misses[1] = 0;
+	dirty_evicts = 0;
 }
 int cache::unpack(Parser * p){
 	MemInstr temp = MemInstr();
