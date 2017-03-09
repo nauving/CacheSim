@@ -123,6 +123,6 @@ int cache::hash(node * addr) {
  
 void cache::history(){
 	for (int i = 0; i < numsets; ++i) {
-			sets[i].sethistory(flags[1]);
+			sets[i].sethistory();
 	}	
  }
