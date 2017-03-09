@@ -6,7 +6,7 @@
 #include "meminstr.h"
 using namespace std;
 
-int main(char argc, int argv[]){
+int main(int argc, char * argv[]){
 	Parser parse = Parser("file.txt");
 	cache c = cache();
 	int on = 1;

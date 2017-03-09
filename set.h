@@ -15,7 +15,7 @@ struct node{
 
 class set{
 	public:
-		set::set();		// set constructor forward declaration
+		set();		// set constructor forward declaration
 		void add(struct node * toadd, int &hit, int &d, int f);    // add an item
 		void read(struct node * toread, int &hit, int &d, int f);
 		void updatelru(int val);
