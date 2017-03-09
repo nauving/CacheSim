@@ -11,6 +11,7 @@ struct node{
 	int hit;
 	node * next; //dirty replaced by somthing implies a stream out.
 	int flag;   //first operation implies a stream in
+	int stepcount;
 };
 
 class set{

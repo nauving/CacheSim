@@ -10,24 +10,27 @@ set::set() {
 }
 
 void set::sethistory(int x){
-	if (valid[0]) {
-		cout << "set[" << x << "]:";
-	}
 	struct node * tmp;
+	bool setused = false;
 	for (int i = 0; i < numlines; ++i){
+		bool lineused = false;
 		tmp = head[i];
 		//show if r/w
 		while(tmp){
+			if (tmp->flag && !setused) {
+				cout << "\nset[" << x << "]:";
+				setused = true;
+			}
+			if (tmp->flag && !lineused) {
+				cout << "\n\tline[" << i << "]:";
+				lineused = true;
+			}
 			if (tmp->flag) {
-				cout << "\n\ntmp->hit: " << tmp->hit;//hit or miss
-				cout << "\ntmp->tag: " << tmp->tag;//tag
-				cout << "\ntmp->dirty: " << tmp->dirty;//dirty
-				//print stuff in the line
-				cout << "\ntmp->data.SAddr: " << tmp->data.SAddr();
+				cout << "\n\t\t" << tmp->data.Dump() << "\tHit: " << tmp->hit << "\tStep: " << tmp->stepcount;
 			}
 			tmp = tmp->next; //traverse list
 		}
-	}	
+	}
 }
 
 

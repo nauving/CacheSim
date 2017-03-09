@@ -21,4 +21,5 @@ class cache {
 		int misses[2];//misses[0] read hits misses[1] write misses
 		int dirty_evicts; //how many times a modified line was written out
 		bool flags[2]; //flags[0] = 1 means trace is flags[1] means dump
+		int step;
  };

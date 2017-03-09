@@ -112,7 +112,7 @@ int Parser::OpenFile() {
 void Parser::Trace() {
 	traceNode * tptr = listHead;
 	int x = 0;
-	cout << "\nInput commands were:\n";
+	cout << "__________ Trace __________\n";
 	while (tptr) {
 		cout << "\t" << tptr->instr->Dump();
 		if (!(++x % 3)) {
@@ -120,6 +120,7 @@ void Parser::Trace() {
 		}
 		tptr = tptr->nextNode;
 	}
+	cout << "\n";
 }
 
 string Parser::PrintLine() {
