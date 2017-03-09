@@ -12,6 +12,11 @@
 
 using namespace std;
 
+struct traceNode {
+	MemInstr * instr;
+	struct traceNode * nextNode;
+};
+
 class Parser {
 public:
 	Parser::Parser();		// Default constructor forward declaration
@@ -21,7 +26,6 @@ public:
 	string Parser::PrintToken();	// PrintToken forward declaration
 	bool Parser::IsEof();
 private:
-	//Parser::~Parser();			// Deconstructor forward declaration
 	string Parser::NextToken();	// NextToken forward declaration
 	void Parser::NextLine();	// NextLine forward declaration
 	int Parser::OpenFile();		// OpenFile forward declaration
@@ -30,5 +34,6 @@ private:
 	string line;			// stores the current line from the file
 	string token;			// stores the current token from the line
 	ifstream dataFile;		// ifstream object to read from file
+	struct traceNode * listHead;	// Pointer to the linked list of traceNodes
 	bool eofd;
 };

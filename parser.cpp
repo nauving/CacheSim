@@ -12,10 +12,6 @@ Parser::Parser(string name) {
 	eofd = false;
 }
 
-/*Parser::~Parser() {
-	dataFile.close();
-}*/
-
 void Parser::NxtPkg(MemInstr &temp)
 {
 	MemInstr m;
@@ -55,6 +51,12 @@ void Parser::NxtPkg(MemInstr &temp)
 				//cout << "*****************************\nCreating MemInstr(" << tok1 << ", " << tok2 << ")\n";
 				m = MemInstr(tok1, tok2);
 				m.CopyInstr(temp);
+				traceNode newnode = new traceNode;
+				MemInstr nodeInstr = new MemInstr;
+				m.CopyInstr(nodeInstr);
+				newnode.instr = nodeInstr;
+				newnode.nextNode = listHead->nextNode;
+				listHead = newnode;
 				return;
 			} else {
 				NxtPkg(temp);
