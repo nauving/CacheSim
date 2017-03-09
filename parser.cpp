@@ -4,22 +4,25 @@ Parser::Parser() {
 	fileName = "input.txt";
 	OpenFile();
 	eofd = false;
+	listHead = 0;
 }
 
 Parser::Parser(string name) {
 	fileName = name;
 	OpenFile();
 	eofd = false;
+	listHead = 0;
 }
 
 void Parser::NxtPkg(MemInstr &temp)
 {
-	MemInstr m;
+	MemInstr * m;
 	if (!eofd) {
 		string str = NextToken();
 		string tok1;
 		if (str.length() > 2) {
 			NxtPkg(temp);
+			return;
 		}
 		else if (str.length() == 2) {
 			if (str.substr(0, 1) == "-") {
@@ -28,42 +31,45 @@ void Parser::NxtPkg(MemInstr &temp)
 					}
 				else {
 					NxtPkg(temp);
+					return;
 				}
 			}
-			//cout << "*****************************\nCreating MemInstr(" << tok1 << ")\n";
-			m = MemInstr(tok1);
-			m.SetEnd(false);
-			m.SetValid();
-			m.CopyInstr(temp);
+			m = new MemInstr(tok1);
+			m->SetEnd(false);
+			m->SetValid();
+			m->CopyInstr(temp);
+			delete m;
 			return;
 		}
 		else if (str.length() == 1) {
 			if ((str == "r") || (str == "R") || (str == "w") || (str == "W")) {
-				//cout << "\nFound a read/write command!" << endl;
 				tok1 = str;
-				//cout << "\nCurrent token is: " << PrintToken() << endl;
 				string tok2;
 				do {
-					//cout << "\nI'm in the do/while loop to find a valid hex value" << endl;
 					str = NextToken();
 				} while ((str.substr(0, 2) != "0x") && (str.length() < 3));
 				tok2 = str;
-				//cout << "*****************************\nCreating MemInstr(" << tok1 << ", " << tok2 << ")\n";
-				m = MemInstr(tok1, tok2);
-				m.CopyInstr(temp);
+				m = new MemInstr(tok1, tok2);
+				m->CopyInstr(temp);
+				traceNode * newnode = new traceNode;
+				newnode->instr = m;
+				newnode->nextNode = listHead;
+				listHead = newnode;
 				return;
 			} else {
 				NxtPkg(temp);
+				return;
 			}
 		} else {
 			NxtPkg(temp);
 			return;
 		}
 	} else {
-		m = MemInstr();
-		m.SetEnd(true);
-		m.SetValid();
-		m.CopyInstr(temp);
+		m = new MemInstr();
+		m->SetEnd(true);
+		m->SetValid();
+		m->CopyInstr(temp);
+		delete m;
 		return;
 	}
 }
@@ -100,6 +106,19 @@ int Parser::OpenFile() {
 	else {
 		dataFile.open(fileName);
 		return 1;
+	}
+}
+
+void Parser::Trace() {
+	traceNode * tptr = listHead;
+	int x = 0;
+	cout << "\nInput commands were:\n";
+	while (tptr) {
+		cout << "\t" << tptr->instr->Dump();
+		if (!(++x % 3)) {
+			cout << "\n";
+		}
+		tptr = tptr->nextNode;
 	}
 }
 

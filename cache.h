@@ -10,6 +10,7 @@ class cache {
 		cache();
 		void read(MemInstr addr); //read an item from the cache
 		void write(MemInstr addr); //write an item to the cache
+		void cTrace(Parser &p);
 		void print();
 		void history(); //if f = 1 the hist op is a dump debug command
 		int unpack(Parser * p);

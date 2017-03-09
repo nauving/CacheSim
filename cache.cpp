@@ -2,6 +2,7 @@
 #include "cache.h"
 
 using namespace std;
+
 cache::cache(){
 	flags[0] = 0;
 	flags[1] = 0;
@@ -79,7 +80,7 @@ int cache::hash(node * addr) {
 	return (addr->data.LAddr() % numsets);
 }
 
- void cache::write(MemInstr addr){
+void cache::write(MemInstr addr){
 	int hit = 0;
 	int setnum = 0;
 	int dirt = 0; //used to tell if a modified line was evicted
@@ -103,7 +104,7 @@ int cache::hash(node * addr) {
 		++misses[1];
  }
  
- void cache::print(){ // give info on hits and misses
+void cache::print(){ // give info on hits and misses
 	int tmp1 = hits[0] + misses[0]; //total reads
 	int tmp2 = hits[1] + misses[1]; //total writes
 	
@@ -133,8 +134,14 @@ int cache::hash(node * addr) {
 	printf("\nHaving the Cache Saved %d Cycles",tmp2);//print cycles saved by cache
  }
  
+void cache::cTrace(Parser &p) {
+	if (flags[0]) {
+		p.Trace();
+	}
+}
+
 void cache::history(){
 	for (int i = 0; i < numsets; ++i) {
-			sets[i].sethistory();
+			sets[i].sethistory(i);
 	}	
  }

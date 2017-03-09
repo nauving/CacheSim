@@ -15,6 +15,7 @@ int main(int argc, char * argv[]){
 		x++;
 		on = c.unpack(&parse);
 	}
+	c.cTrace(parse);
 	c.history();
 	c.print();
 }

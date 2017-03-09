@@ -79,15 +79,14 @@ string MemInstr::Dump() {
 	if (cmd == t) { s = "Command is '-t'"; }
 	if (cmd == v) { s = "Command is '-v'"; }
 	if (cmd == n) {
-		s = "\nMode is ";
 		if (mode == READ) {
-			s += "READ";
+			s += "r";
 		} else if (mode == WRITE) {
-			s += "WRITE";
+			s += "w";
 		} else if (mode == NONE) {
-			s += "NONE";
+			s += "w";
 		}
-		s += " and address is " + strAddr;
+		s += " " + strAddr;
 	}
 	return s;
 }

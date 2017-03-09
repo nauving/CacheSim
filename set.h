@@ -19,7 +19,7 @@ class set{
 		void add(struct node * toadd, int &hit, int &d, int f);    // add an item
 		void read(struct node * toread, int &hit, int &d, int f);
 		void updatelru(int val);
-		void sethistory();    //show line history
+		void sethistory(int x);    //show line history
 	private:
 		struct node * head [numlines];  //linked list of lines, being head implies that that item is currently in the cache the rest are line history
 		int lru[numlines];            // 0-3, 3 gets evicted on write

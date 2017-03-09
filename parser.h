@@ -14,7 +14,7 @@ using namespace std;
 
 struct traceNode {
 	MemInstr * instr;
-	struct traceNode * nextNode;
+	traceNode * nextNode;
 };
 
 class Parser {
@@ -22,6 +22,7 @@ public:
 	Parser();		// Default constructor forward declaration
 	Parser(string fname);	// Custom filename constructor forward declaration
 	void NxtPkg(MemInstr &temp);	// NxtPkg forward declaration
+	void Trace();		// Trace forward declaration
 	string PrintLine();	// PrintLine forward declaration
 	string PrintToken();	// PrintToken forward declaration
 	bool IsEof();
@@ -34,6 +35,6 @@ private:
 	string line;			// stores the current line from the file
 	string token;			// stores the current token from the line
 	ifstream dataFile;		// ifstream object to read from file
-	struct traceNode * listHead;	// Pointer to the linked list of traces
+	traceNode * listHead;	// Pointer to the linked list of traces
 	bool eofd;
 };
