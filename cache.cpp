@@ -60,13 +60,18 @@ void cache::read(MemInstr addr){
 	//cout << tmp->data.Dump();
 	tmp->next = 0;
 	tmp->flag = flags[1];
+	cout << "\nflags[1]: " << flags[1] << " and tmp->flag: " << tmp->flag;
+	tmp->dirty = 0;
+	tmp->hit = 0;
 	
 	setnum = hash(tmp);//figure out what set the data should be sough in
 	sets[setnum].read(tmp, hit, dirt,flags[1]);
 	if (dirt)
 		++dirty_evicts;
-	if (hit)
-			++hits[0];
+	if (hit) {
+		++hits[0];
+		tmp->hit = 1;
+	}
 	else
 		++misses[0];
  }
@@ -85,13 +90,18 @@ int cache::hash(node * addr) {
 	//cout << tmp->data.Dump();
 	tmp->next = 0;
 	tmp->flag = flags[1];
+	cout << "\nflags[1]: " << flags[1] << " and tmp->flag: " << tmp->flag;
+	tmp->dirty = 0;
+	tmp->hit = 0;
 	
 	setnum = hash(tmp);//figure out which set the data will be added to
 	sets[setnum].add(tmp, hit, dirt,flags[1]);
 	if (dirt)
 		++dirty_evicts;
-	if(hit)
+	if (hit) {
 		++hits[1];
+		tmp->hit = 1;
+	}
 	else
 		++misses[1];
  }

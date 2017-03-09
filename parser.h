@@ -34,6 +34,6 @@ private:
 	string line;			// stores the current line from the file
 	string token;			// stores the current token from the line
 	ifstream dataFile;		// ifstream object to read from file
-	struct traceNode * listHead;	// Pointer to the linked list of traceNodes
+	struct traceNode * listHead;	// Pointer to the linked list of traces
 	bool eofd;
 };

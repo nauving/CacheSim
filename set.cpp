@@ -15,12 +15,13 @@ void set::sethistory(){
 		tmp = head[i];
 		//show if r/w
 		while(tmp){
-			cout << "\n" << tmp->hit;//hit or miss
-			cout << "\n" << tmp->tag;//tag
-			cout << "\n" << tmp->dirty;//dirty
+			cout << "\n\n\ntmp->flag: " << tmp->flag;
+			cout << "\ntmp->hit: " << tmp->hit;//hit or miss
+			cout << "\ntmp->tag: " << tmp->tag;//tag
+			cout << "\ntmp->dirty: " << tmp->dirty;//dirty
 			//print stuff in the line
-			cout << tmp->data.SAddr();
-			tmp->data.Dump();
+			cout << "\ntmp->data.SAddr: " << tmp->data.SAddr();
+			cout << "\ntmp->data.Dump: " << tmp->data.Dump();
 			tmp = tmp->next; //traverse list
 		}
 	}	
@@ -42,6 +43,7 @@ void set::updatelru(int val){ //val is the lru of an item in a hit
 }					//new lines init to lru 0, doesnt matter if unused lines are updated
 
  void set::add(struct node * toadd, int &hit, int &d, int f){
+	cout << "\ntoadd flag: " << toadd->flag;
 	int tmp = 0;
 	for(int i = 0; i < numlines; ++i){
 		if (valid[i]){ //line has good data
@@ -51,6 +53,7 @@ void set::updatelru(int val){ //val is the lru of an item in a hit
 				hit = 1;
 				updatelru(lru[i]);
 				lru[i] = 0;
+				cout << "\n!!!!!!!__ADD__!!!!!!!\n f: " << f;
 				if(f)
 					toadd->next = head[i];				//make head next item in list
 				head[i] = toadd;
@@ -69,7 +72,7 @@ void set::updatelru(int val){ //val is the lru of an item in a hit
 			return;
 		}
 	}
-	cout << dirty[tmp];
+	//cout << dirty[tmp];
 	//getting here implies that there was no hit
 	if (dirty[tmp]) {//track cycles for write to main mem
 		d = 1;
@@ -88,6 +91,7 @@ void set::updatelru(int val){ //val is the lru of an item in a hit
  }
  
  void set::read(struct node * toread, int &hit, int &d, int f){
+	cout << "\ntoadd flag: " << toread->flag;
 	int tmp = 0;
 	for(int i = 0; i < numlines; ++i){
 		if (valid[i]){ //line has good data
@@ -95,11 +99,11 @@ void set::updatelru(int val){ //val is the lru of an item in a hit
 				hit = 1;
 				updatelru(lru[i]);
 				lru[i] = 0;
+				cout << "\n!!!!!!!__READ__!!!!!!!\n f: " << f;
 				if(f)
 					toread->next = head[i]; //make head next item in list if -d
 				head[i] = toread;
-				if(f)
-					head[i]->hit = hit;
+				head[i]->hit = hit;
 				return;
 			}
 			if (lru[i] == 3) //item has LRU of 3 and is valid			
