@@ -18,13 +18,14 @@ void set::sethistory(int x){
 		//show if r/w
 		while(tmp){
 			if (tmp->flag && !setused) {
-				cout << "\nset[" << x << "]: ";
+				cout << "\nset[" << x << "]:";
 				for (int j = 0; j < numlines; j++) {
-					if (j < numlines)
-						cout << "Line " << j << "(LRU: " << lru[j] << " Tag: " << head[j]->tag << "), ";
-					else
-						cout << "Line " << j << "(LRU: " << lru[j] << " Tag: " << head[j]->tag << ")\n";
-
+					if (head[j]) {
+						if (j < numlines)
+							cout << " [Line " << j << "] LRU: " << lru[j] << " Tag: " << head[j]->tag;
+						else
+							cout << " [Line " << j << "] LRU: " << lru[j] << " Tag: " << head[j]->tag;
+					}
 				}
 				setused = true;
 			}
