@@ -42,14 +42,14 @@ int cache::unpack(Parser * p){
 	return 0;
 }
 
-void cache::read(MemInstr &addr){
+void cache::read(MemInstr addr){
 	int hit = 0;
 	int setnum = 0;
 	int dirt = 0;
 	
 	node * tmp = new node;
-	tmp->data = &addr;
-	cout << tmp->data->Dump();
+	tmp->data = addr;
+	cout << tmp->data.Dump();
 	tmp->next = 0;
 	tmp->flag = flags[1];
 	
@@ -64,17 +64,17 @@ void cache::read(MemInstr &addr){
  }
  
 int cache::hash(node * addr) {
-	return (addr->data->LAddr() % numsets);
+	return (addr->data.LAddr() % numsets);
 }
 
- void cache::write(MemInstr &addr){
+ void cache::write(MemInstr addr){
 	int hit = 0;
 	int setnum = 0;
-	int dirt = 0;; //used to tell if a modified line was evicted
+	int dirt = 0; //used to tell if a modified line was evicted
 	
 	node * tmp = new node;
-	tmp->data = &addr;
-	cout << tmp->data->Dump();
+	tmp->data = addr;
+	cout << tmp->data.Dump();
 	tmp->next = 0;
 	tmp->flag = flags[1];
 	
@@ -120,6 +120,6 @@ int cache::hash(node * addr) {
  
 void cache::history(){
 	for (int i = 0; i < numsets; ++i) {
-			sets[i].history(flags[1]);
+			sets[i].sethistory(flags[1]);
 	}	
  }

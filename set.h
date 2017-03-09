@@ -4,7 +4,7 @@
 #define numlines 4
 
 struct node{
-	MemInstr * data;
+	MemInstr data;
 	int lru; //for dump command
 	int tag; //for dump command
 	int dirty; //valid left out because its only valid if there is data to print
@@ -15,11 +15,11 @@ struct node{
 
 class set{
 	public:
-		void set::add(struct node * toadd, int hit, int d);    // add an item
-		void set::read(struct node * toread, int hit, int d);
+		set::set();		// set constructor forward declaration
+		void set::add(struct node * toadd, int &hit, int &d);    // add an item
+		void set::read(struct node * toread, int &hit, int &d);
 		void set::updatelru(int val);
-		void set::history(int f);    //show line history
-		set();                  //initialize the set
+		void set::sethistory(int f);    //show line history
 	private:
 		struct node * head [numlines];  //linked list of lines, being head implies that that item is currently in the cache the rest are line history
 		int lru[numlines];            // 0-3, 3 gets evicted on write
