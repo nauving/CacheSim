@@ -67,6 +67,7 @@ void cache::read(MemInstr addr){
 	tmp->dirty = 0;
 	tmp->hit = 0;
 	tmp->stepcount = step;
+	tmp->tag = addr.LAddr() / numsets;
 	
 	setnum = hash(tmp);//figure out what set the data should be sough in
 	sets[setnum].read(tmp, hit, dirt,flags[1]);
@@ -96,6 +97,7 @@ void cache::write(MemInstr addr){
 	tmp->dirty = 0;
 	tmp->hit = 0;
 	tmp->stepcount = step;
+	tmp->tag = addr.LAddr() / numsets;
 	
 	setnum = hash(tmp);//figure out which set the data will be added to
 	sets[setnum].add(tmp, hit, dirt,flags[1]);
