@@ -23,8 +23,8 @@ void set::sethistory(){
 				//print stuff in the line
 				cout << "\ntmp->data.SAddr: " << tmp->data.SAddr();
 				cout << "\ntmp->data.Dump: " << tmp->data.Dump();
-				tmp = tmp->next; //traverse list
 			}
+			tmp = tmp->next; //traverse list
 		}
 	}	
 }
