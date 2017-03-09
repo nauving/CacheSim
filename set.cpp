@@ -15,9 +15,9 @@ void set::sethistory(){
 		tmp = head[i];
 		//show if r/w
 		while(tmp){
-			cout << tmp->hit;//hit or miss
-			cout << tmp->tag;//tag
-			cout << tmp->dirty;//dirty
+			cout << "\n" << tmp->hit;//hit or miss
+			cout << "\n" << tmp->tag;//tag
+			cout << "\n" << tmp->dirty;//dirty
 			//print stuff in the line
 			cout << tmp->data.SAddr();
 			tmp->data.Dump();
